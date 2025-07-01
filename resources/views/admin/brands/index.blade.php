@@ -60,7 +60,7 @@
                                         <td class="pname">
                                             <div class="image">
                                                 <img src="{{ asset('uploads/brands/' . $brand->image) }}"
-                                                    alt="{{ $brand->name }}" class="image">
+                                                    alt="{{ $brand->name }}">
                                             </div>
                                             <div class="name">
                                                 <a href="#" class="body-title-2">{{ $brand->name }}</a>
