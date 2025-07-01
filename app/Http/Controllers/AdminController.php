@@ -418,45 +418,12 @@ class AdminController extends Controller
     }
     public function destroyProduct($id)
     {
-        $product = Product::findOrFail($id);
-
-        // Delete main image & thumbnail
-        if ($product->image) {
-            $imagePath = public_path('uploads/products/' . $product->image);
-            $thumbPath = public_path('uploads/products/thumbnails/' . $product->image);
-
-            if (file_exists($imagePath) && is_file($imagePath)) {
-                unlink($imagePath);
-            }
-
-            if (file_exists($thumbPath) && is_file($thumbPath)) {
-                unlink($thumbPath);
-            }
-        }
-
-        // Delete gallery images & thumbnails
-        if (!empty($product->images)) {
-            $galleryImages = explode(',', $product->images);
-            foreach ($galleryImages as $galleryImage) {
-                $galleryImage = trim($galleryImage);
-
-                $gImagePath  = public_path('uploads/products/' . $galleryImage);
-                $gThumbPath  = public_path('uploads/products/thumbnails/' . $galleryImage);
-
-                if (file_exists($gImagePath) && is_file($gImagePath)) {
-                    unlink($gImagePath);
-                }
-
-                if (file_exists($gThumbPath) && is_file($gThumbPath)) {
-                    unlink($gThumbPath);
-                }
-            }
-        }
-
+        $product = Product::find($id);
         $product->delete();
-
         return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
     }
+
+
 
     public function generateProductThumbnailImage($image, $imageName)
     {

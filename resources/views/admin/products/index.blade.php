@@ -67,8 +67,8 @@
                                             <div class="text-tiny mt-3">{{ $product->slug }}</div>
                                         </div>
                                     </td>
-                                    <td>{{ $product->regular_price }}</td>
-                                    <td>{{ $product->sale_price }}</td>
+                                    <td>{{ $product->regular_price }} LE</td>
+                                    <td>{{ $product->sale_price }} LE</td>
                                     <td>{{ $product->SKU }}</td>
                                     <td>{{ $product->category->name ?? 'No Category' }}</td>
                                     <td>{{ $product->brand->name ?? 'No Brand' }}</td>
@@ -77,11 +77,7 @@
                                     <td>{{ $product->quantity }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="#" target="_blank">
-                                                <div class="item eye">
-                                                    <i class="icon-eye"></i>
-                                                </div>
-                                            </a>
+                                            
                                             <a href="{{ route('admin.products.edit', ['id' => $product->id]) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>

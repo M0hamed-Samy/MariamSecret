@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ShopController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -8,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-
+// Public routes
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+Route::get('/shop',[ShopController::class,'index'])->name('shop.index');
 
 
 // Admin routes
