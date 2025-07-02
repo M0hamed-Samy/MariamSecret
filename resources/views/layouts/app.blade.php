@@ -508,6 +508,10 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_cart" />
                         </svg>
+                        @php
+                            use Surfsidemedia\Shoppingcart\Facades\Cart as Cart;
+
+                        @endphp
                         @if (Cart::instance('cart')->content()->count() > 0)
                             <span class="cart-amount d-block position-absolute js-cart-items-count">
                                 {{ Cart::instance('cart')->content()->count() }}

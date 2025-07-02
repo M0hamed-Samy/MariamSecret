@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@php
+    use Surfsidemedia\Shoppingcart\Facades\Cart as Cart;
+@endphp
 @section('content')
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
@@ -86,15 +89,22 @@
                                             <span class="shopping-cart__subtotal">{{ $item->subTotal() }} LE</span>
                                         </td>
                                         <td>
-                                            <a href="#" class="remove-cart">
-                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                                    <path
-                                                        d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                                                </svg>
-                                            </a>
+                                            <form method="POST"
+                                                action="{{ route('cart.remove', ['rowId' => $item->rowId]) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="javascript:void(0)" class="remove-cart">
+                                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
+
+
+                                                        <path
+                                                            d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
+                                                    </svg>
+                                                </a>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -108,7 +118,11 @@
                                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
                                     value="APPLY COUPON">
                             </form>
-                            <button class="btn btn-light">UPDATE CART</button>
+                            <form class="position-relative bg-body" method="POST" action="{{ route('cart.empty') }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-light" type="submit">CLEAR CART</button>
+                            </form>
                         </div>
                     </div>
                     <div class="shopping-cart__totals-wrapper">
@@ -117,6 +131,7 @@
                                 <h3>Cart Totals</h3>
                                 <table class="cart-totals">
                                     <tbody>
+
                                         <tr>
                                             <th>Subtotal</th>
                                             <td>{{ Cart::instance('cart')->subTotal() }} LE</td>
@@ -156,16 +171,17 @@
     </main>
 @endsection
 @push('scripts')
-
-<script>
-    $(function () {
-        $('.qty-control__increase').on("click",function(){
-            $(this).closest('form').submit();
-        });
-         $('.qty-control__reduce').on("click",function(){
-            $(this).closest('form').submit();
-        });
-    })
-</script>
-    
+    <script>
+        $(function() {
+            $('.qty-control__increase').on("click", function() {
+                $(this).closest('form').submit();
+            });
+            $('.qty-control__reduce').on("click", function() {
+                $(this).closest('form').submit();
+            });
+            $('.remove-cart').on("click", function() {
+                $(this).closest('form').submit();
+            });
+        })
+    </script>
 @endpush
