@@ -12,6 +12,7 @@ Auth::routes();
 // Public routes
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
 Route::get('/shop',[ShopController::class,'index'])->name('shop.index');
+Route::get('shop/{product_slug}',[ShopController::class,'showProductDetails'])->name('shop.show-details');
 
 
 // Admin routes
