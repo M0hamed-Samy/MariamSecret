@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,17 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 // Public routes
+
+//         Shop route
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
-Route::get('/shop',[ShopController::class,'index'])->name('shop.index');
-Route::get('shop/{product_slug}',[ShopController::class,'showProductDetails'])->name('shop.show-details');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
+
+//         Cart route
+Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
+Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
 
 
 // Admin routes
@@ -41,7 +50,6 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/products/edit/{id}', [App\Http\Controllers\AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::put('/admin/products/update/{id}', [App\Http\Controllers\AdminController::class, 'updateProduct'])->name('admin.products.update');
     Route::delete('/admin/products/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
-
 });
 
 
