@@ -16,7 +16,9 @@
             border-bottom: 1px solid #f0f0f0 !important;
         }
 
-
+        .filled-heart {
+            color: red !important;
+        }
 
         .brand-list .menu-link,
         .category-list .menu-link {
@@ -343,7 +345,7 @@
                                             @if ($product->sale_price && $product->sale_price != $product->regular_price)
                                                 <s>{{ $product->regular_price }} LE</s> {{ $product->sale_price }} LE
                                             @else
-                                                {{ $product->regular_price }} LE
+                                                {{ $product->regular_price }} LE 
                                             @endif
                                         </span>
                                     </div>
@@ -372,20 +374,33 @@
                                         </div>
                                         <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                                     </div>
-
-                                    <form method="POST" action="{{ route('wishlist.add') }}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $product->id }}">
-                                        <input type="hidden" name="id" value="{{ $product->name }}">
-                                        
-                                    <button type="submit"
-                                        class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
-                                    </form>
+                                    @if (Cart::instance('wishlist')->content()->Where('id', $product->id)->count() > 0)
+                                        <button type="submit"
+                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
+                                            title="Add To Wishlist">
+                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_heart" />
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <form method="POST" action="{{ route('wishlist.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                            <input type="hidden" name="name" value="{{ $product->name }}">
+                                            <input type="hidden" name="price"
+                                                value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                                title="Add To Wishlist">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>

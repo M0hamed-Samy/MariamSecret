@@ -7,6 +7,11 @@ use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class WhishListController extends Controller
 {
+
+    public function index(){
+        $items = Cart::instance('wishlist')->content();
+        return view('wishlist.index',compact('items'));
+    }
     public function add(Request $request)
     {
 
