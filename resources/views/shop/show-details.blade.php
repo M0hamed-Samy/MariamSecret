@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@php
+    use Surfsidemedia\Shoppingcart\Facades\Cart as Cart;
+
+@endphp
 @section('content')
     <main class="pt-90">
         <div class="mb-md-1 pb-md-3"></div>

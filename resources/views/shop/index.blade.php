@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@php
+    use Surfsidemedia\Shoppingcart\Facades\Cart as Cart;
+
+@endphp
 @section('content')
     <main class="pt-90">
         <section class="shop-main container d-flex pt-4 pt-xl-5">
@@ -163,57 +167,24 @@
                         <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
                             aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
                             <div class="search-field multi-select accordion-body px-0 pb-0">
-                                <select class="d-none" multiple name="total-numbers-list">
-                                    <option value="1">Adidas</option>
-                                    <option value="2">Balmain</option>
-                                    <option value="3">Balenciaga</option>
-                                    <option value="4">Burberry</option>
-                                    <option value="5">Kenzo</option>
-                                    <option value="5">Givenchy</option>
-                                    <option value="5">Zara</option>
-                                </select>
-                                <div class="search-field__input-wrapper mb-3">
-                                    <input type="text" name="search_text"
-                                        class="search-field__input form-control form-control-sm border-light border-2"
-                                        placeholder="Search" />
-                                </div>
-                                <ul class="multi-select__list list-unstyled">
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Adidas</span>
-                                        <span class="text-secondary">2</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balmain</span>
-                                        <span class="text-secondary">7</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balenciaga</span>
-                                        <span class="text-secondary">10</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Burberry</span>
-                                        <span class="text-secondary">39</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Kenzo</span>
-                                        <span class="text-secondary">95</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Givenchy</span>
-                                        <span class="text-secondary">1092</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Zara</span>
-                                        <span class="text-secondary">48</span>
-                                    </li>
+                                <ul class="list list-inline mb-0 brand-list">
+                                    @foreach ($brands as $brand)
+                                        <li class="list-item">
+                                            <span class="menu-link py-1">
+                                                <input type="checkbox" name="brands" value="{{ $brand->id }}"
+                                                    class="chk-brand"
+                                                    @if (in_array($brand->id, explode(',', $f_brands))) checked="checked" @endif>
+
+
+                                                {{ $brand->name }}
+                                            </span>
+                                            <span class="text-right float-end">
+                                                {{ $brand->products->count() }}
+                                            </span>
+                                        </li>
+                                    @endforeach
                                 </ul>
+
                             </div>
                         </div>
                     </div>
@@ -330,16 +301,20 @@
                     <div
                         class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                         <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
-                            aria-label="Sort Items" name="total-number">
-                            <option selected>Default Sorting</option>
-                            <option value="1">Featured</option>
-                            <option value="2">Best selling</option>
-                            <option value="3">Alphabetically, A-Z</option>
-                            <option value="3">Alphabetically, Z-A</option>
-                            <option value="3">Price, low to high</option>
-                            <option value="3">Price, high to low</option>
-                            <option value="3">Date, old to new</option>
-                            <option value="3">Date, new to old</option>
+                            style="margin-right:20px;" aria-label="Page Size" id="pagesize" name="pagesize">
+                            <option value="12" {{ $size == '12' ? 'selected' : '' }}>Show</option>
+                            <option value="24" {{ $size == '24' ? 'selected' : '' }}>24</option>
+                            <option value="48" {{ $size == '48' ? 'selected' : '' }}>48</option>
+                            <option value="102" {{ $size == '102' ? 'selected' : '' }}>102</option>
+                        </select>
+
+                        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
+                            aria-label="Sort Items" id="orderby" name="orderby">
+                            <option value="-1" {{ $order == -1 ? 'selected' : '' }}>Default Sorting</option>
+                            <option value="1" {{ $order == 1 ? 'selected' : '' }}>New To Old</option>
+                            <option value="2" {{ $order == 2 ? 'selected' : '' }}>Old To New</option>
+                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>Low To High</option>
+                            <option value="4" {{ $order == 4 ? 'selected' : '' }}>High To Low</option>
                         </select>
 
                         <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
@@ -386,10 +361,11 @@
                                             </div>
                                             @foreach (explode(',', $product->images) as $gimg)
                                                 <div class="swiper-slide">
-                                                    <a href="{{ route('shop.show-details', ['product_slug' => $product->slug]) }}">
-                                                        <img loading="lazy" src="{{ asset('uploads/products/' . $gimg) }}"
-                                                            width="330" height="400" alt="{{ $product->name }}"
-                                                            class="pc__img">
+                                                    <a
+                                                        href="{{ route('shop.show-details', ['product_slug' => $product->slug]) }}">
+                                                        <img loading="lazy"
+                                                            src="{{ asset('uploads/products/' . $gimg) }}" width="330"
+                                                            height="400" alt="{{ $product->name }}" class="pc__img">
                                                     </a>
                                                 </div>
                                             @endforeach
@@ -480,28 +456,48 @@
 
                 </div>
 
-                <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
-                    <a href="#" class="btn-link d-inline-flex align-items-center">
-                        <svg class="me-1" width="7" height="11" viewBox="0 0 7 11"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <use href="#icon_prev_sm" />
-                        </svg>
-                        <span class="fw-medium">PREV</span>
-                    </a>
-                    <ul class="pagination mb-0">
-                        <li class="page-item"><a class="btn-link px-1 mx-2 btn-link_active" href="#">1</a></li>
-                        <li class="page-item"><a class="btn-link px-1 mx-2" href="#">2</a></li>
-                        <li class="page-item"><a class="btn-link px-1 mx-2" href="#">3</a></li>
-                        <li class="page-item"><a class="btn-link px-1 mx-2" href="#">4</a></li>
-                    </ul>
-                    <a href="#" class="btn-link d-inline-flex align-items-center">
-                        <span class="fw-medium me-1">NEXT</span>
-                        <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                            <use href="#icon_next_sm" />
-                        </svg>
-                    </a>
-                </nav>
-            </div>
+                <div class="divider">
+                    <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                        {{ $products->withQueryString()->links('pagination::bootstrap-5') }}
+                    </div>
+
+                </div>
         </section>
     </main>
+    <form method="GET" id="frmfilter" action="{{ route('shop.index') }}">
+        <input type="hidden" name="page" value="{{ $products->currentPage() }}">
+        <input type="hidden" name="size" id="size" value="{{ $size }}">
+        <input type="hidden" name="order" id="order" value="{{ $order }}">
+        <input type="hidden" name="brands" id="hdnBrands" />
+    </form>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $("#pagesize").on("change", function() {
+                $("#size").val($("#pagesize option:selected").val());
+                $("#frmfilter").submit();
+
+
+            });
+            $('#orderby').on('change', function() {
+                $('#order').val($("#orderby option:selected").val());
+                $('#frmfilter').submit();
+            });
+            $("input[name='brands']").on("change", function() {
+                var brands = "";
+                $("input[name='brands']:checked").each(function() {
+                    if (brands == "") {
+                        brands += $(this).val();
+                    } else {
+                        brands += "," + $(this).val();
+                    }
+                });
+                $("#hdnBrands").val(brands);
+                $("#frmfilter").submit();
+            });
+
+        });
+    </script>
+@endpush
