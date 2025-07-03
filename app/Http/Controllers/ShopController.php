@@ -15,6 +15,7 @@ class ShopController extends Controller
         $o_coloumn = "";
         $o_order = "";
         $f_brands = $request->query('brands');
+        $f_categories = $request->query('categories');
         switch ($order) {
             case 1:
                 $o_coloumn = "created_at";
@@ -43,11 +44,16 @@ class ShopController extends Controller
             if (!empty($f_brands)) {
                 $query->whereIn('brand_id', explode(',', $f_brands));
             }
-        })->orderBy($o_coloumn, $o_order)->paginate($size);
+        })->where(function ($query) use ($f_categories) {
+            if (!empty($f_categories)) {
+                $query->whereIn('category_id', explode(',', $f_categories));
+            }
+        })
+        ->orderBy($o_coloumn, $o_order)->paginate($size);
         $categories = Category::orderBy("name", "ASC")->get();
         $brands = Brand::orderBy("name", "ASC")->get();
 
-        return view('shop.index', compact("products", "size", "order", "brands", "categories", "f_brands"));
+        return view('shop.index', compact("products", "size", "order", "brands", "categories", "f_brands","f_categories"));
     }
 
     public function showProductDetails($product_slug)

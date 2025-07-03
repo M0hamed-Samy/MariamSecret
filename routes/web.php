@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\WhishListController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
 
+
 //         Cart route
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
@@ -25,7 +27,8 @@ Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
 
-
+//          Wishlist route
+Route::post('/wishlist/add',[WhishListController::class,'add'])->name('wishlist.add');
 
 // Admin routes
 Route::middleware(['auth', AuthAdmin::class])->group(function () {

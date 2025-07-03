@@ -115,10 +115,9 @@
                     </div>
                     <div class="product-single__price">
                         <span class="current-price">
-                            $
-                            @if ($product->sale_price)
-                                <s style="margin-right: 20px;">{{ $product->regular_price }} LE</s>
-                                {{ $product->sale_price }} LE
+
+                            @if ($product->sale_price && $product->sale_price != $product->regular_price)
+                                <s>{{ $product->regular_price }} LE</s> {{ $product->sale_price }} LE
                             @else
                                 {{ $product->regular_price }} LE
                             @endif
