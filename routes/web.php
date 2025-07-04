@@ -32,6 +32,7 @@ Route::post('/wishlist/add',[WhishListController::class,'add'])->name('wishlist.
 Route::get('wishlist',[WhishListController::class, 'index'])->name('wishlist.index');
 Route::delete('/wishlist/remove/{rowId}',[WhishListController::class,'remove_item_from_wishlist'])->name('wishlist.remove');
 Route::delete('/wishlist/clear',[WhishListController::class,'empty_wishlist'])->name('wishlist.empty');
+Route::post('/wishlist/move-to-cart/{rowId}',[WhishListController::class,'move_to_cart'])->name('wishlist.move');
 
 // Admin routes
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
@@ -44,7 +45,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::put('/admin/brands/update/{id}', [App\Http\Controllers\AdminController::class, 'updateBrand'])->name('admin.brands.update');
     Route::delete('/admin/brands/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroyBrand'])->name('admin.brands.destroy');
 
-    // Categories
+    // Categories]
     Route::get('admin/categories', [AdminController::class, 'categories'])->name('admin.category.index');
     Route::get('/admin/categories/create', [App\Http\Controllers\AdminController::class, 'createCategory'])->name('admin.category.create');
     Route::post('/admin/categories/store', [App\Http\Controllers\AdminController::class, 'storeCategory'])->name('admin.category.store');
