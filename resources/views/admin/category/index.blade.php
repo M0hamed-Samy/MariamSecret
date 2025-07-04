@@ -73,7 +73,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $category->slug }}</td>
-                                    <td><a href="#" target="_blank">1</a></td>
+                                    <td><a href="#" target="_blank">{{ $category->products->count() }}</a></td>
                                     <td>
                                         <div class="list-icon-function">
                                             <a href="{{ route('admin.category.edit', ['id' => $category->id]) }}">
