@@ -155,12 +155,20 @@
                         </form>
                     @endif
                     <div class="product-single__addtolinks">
+                        
                         @if (Cart::instance('wishlist')->content()->Where('id', $product->id)->count() > 0)
-                            <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist"><svg
-                                    width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                    class="filled-heart" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_heart" />
-                                </svg><span>Remove from Wishlist</span></a>
+                            <form method="POST"
+                                action="{{ route('wishlist.remove', ['rowId' => Cart::instance('wishlist')->content()->Where('id', $product->id)->first()->rowId]) }}"
+                                id="frm-remove-item">
+                                @csrf
+                                @method('DELETE')
+                                <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist"
+                                    onclick="document.getElementById('frm-remove-item').submit();"><svg width="16"
+                                        height="16" viewBox="0 0 20 20" fill="none" class="filled-heart"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_heart" />
+                                    </svg><span>Remove from Wishlist</span></a>
+                            </form>
                         @else
                             <form method="POST" action="{{ route('wishlist.add') }}" id="wishlist-form">
                                 @csrf
@@ -169,8 +177,9 @@
                                 <input type="hidden" name="price"
                                     value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
                                 <input type="hidden" name="quantity" value="1">
-                                <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist" onclick="document.getElementById('wishlist-form').submit();"><svg
-                                        width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist"
+                                    onclick="document.getElementById('wishlist-form').submit();"><svg width="16"
+                                        height="16" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <use href="#icon_heart" />
                                     </svg><span>Add to Wishlist</span></a>
@@ -253,7 +262,7 @@
                         </div>
                     </div>
                     {{-- i need here to add more information for the product like product more information --}}
-                    <div class="tab-pane fade" id="tab-additional-info" role="tabpanel"
+                    {{-- <div class="tab-pane fade" id="tab-additional-info" role="tabpanel"
                         aria-labelledby="tab-additional-info-tab">
                         <div class="product-single__addtional-info">
                             <div class="item">
@@ -277,7 +286,7 @@
                                 <span>Relaxed fit shirt-style dress with a rugged</span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
                         <h2 class="product-single__reviews-title">Reviews</h2>
                         <div class="product-single__reviews-list">
@@ -509,25 +518,40 @@
                                     <div class="product-card__price d-flex">
                                         <span class="money price">${{ $rproduct->regular_price }}</span>
                                     </div>
-                                    @if (Cart::instance('wishlist')->content()->Where('id', $product->id)->count() > 0)
-                                        <button
-                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
-                                            title="Add To Wishlist">
-                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_heart" />
-                                            </svg>
-                                        </button>
+                                    @if (Cart::instance('wishlist')->content()->Where('id', $rproduct->id)->count() > 0)
+                                        <form method="POST"
+                                            action="{{ route('wishlist.remove', ['rowId' => Cart::instance('wishlist')->content()->Where('id', $rproduct->id)->first()->rowId]) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
+                                                title="Add To Wishlist">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     @else
-                                        <button
-                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                            title="Add To Wishlist">
-                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_heart" />
-                                            </svg>
-                                        </button>
+                                        <form method="POST" action="{{ route('wishlist.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $rproduct->id }}">
+                                            <input type="hidden" name="name" value="{{ $rproduct->name }}">
+                                            <input type="hidden" name="price"
+                                                value="{{ $rproduct->sale_price == '' ? $rproduct->regular_price : $rproduct->sale_price }}">
+                                            <input type="hidden" name="quantity" value="1">
+
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                                title="Add To Wishlist">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     @endif
+
                                 </div>
                             </div>
                         @endforeach

@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class ShopController extends Controller
 {
@@ -49,15 +50,16 @@ class ShopController extends Controller
                 $query->whereIn('category_id', explode(',', $f_categories));
             }
         })
-        ->orderBy($o_coloumn, $o_order)->paginate($size);
+            ->orderBy($o_coloumn, $o_order)->paginate($size);
         $categories = Category::orderBy("name", "ASC")->get();
         $brands = Brand::orderBy("name", "ASC")->get();
 
-        return view('shop.index', compact("products", "size", "order", "brands", "categories", "f_brands","f_categories"));
+        return view('shop.index', compact("products", "size", "order", "brands", "categories", "f_brands", "f_categories"));
     }
 
     public function showProductDetails($product_slug)
     {
+        
 
         $product = Product::where('slug', $product_slug)->first();
         $rproducts = Product::where('slug', '<>', $product_slug)->get()->take(8);
