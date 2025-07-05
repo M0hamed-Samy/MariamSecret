@@ -27,6 +27,10 @@ Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
 
+//           Coupons
+Route::post('/cart/apply-coupon',[CartController::class,'apply_coupon_code'])->name('cart.coupon.apply');
+Route::delete('/cart/remove-coupon',[CartController::class,'remove_coupon_code'])->name('cart.coupon.remove');
+
 //          Wishlist route
 Route::post('/wishlist/add', [WhishListController::class, 'add'])->name('wishlist.add');
 Route::get('wishlist', [WhishListController::class, 'index'])->name('wishlist.index');
@@ -48,7 +52,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/brands/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroyBrand'])->name('admin.brands.destroy');
 
     // Categories]
-    Route::get('admin/categories', [AdminController::class, 'categories'])->name('admin.category.index');
+    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.category.index');
     Route::get('/admin/categories/create', [App\Http\Controllers\AdminController::class, 'createCategory'])->name('admin.category.create');
     Route::post('/admin/categories/store', [App\Http\Controllers\AdminController::class, 'storeCategory'])->name('admin.category.store');
     Route::get('/admin/categories/edit/{id}', [App\Http\Controllers\AdminController::class, 'editCategory'])->name('admin.category.edit');
@@ -56,7 +60,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/categories/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroyCategory'])->name('admin.category.destroy');
 
     // Products
-    Route::get('admin/products', [AdminController::class, 'products'])->name('admin.products.index');
+    Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products.index');
     Route::get('/admin/products/create', [App\Http\Controllers\AdminController::class, 'createProduct'])->name('admin.products.create');
     Route::post('/admin/products/store', [App\Http\Controllers\AdminController::class, 'storeProduct'])->name('admin.products.store');
     Route::get('/admin/products/edit/{id}', [App\Http\Controllers\AdminController::class, 'editProduct'])->name('admin.products.edit');
@@ -64,12 +68,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/products/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
 
     // Coupons
-    Route::get('admin/copouns', [AdminController::class, 'coupons'])->name('admin.coupons.index');
+    Route::get('admin/coupons', [AdminController::class, 'coupons'])->name('admin.coupons.index');
     Route::get('/admin/coupon/create', [AdminController::class, 'add_coupon'])->name('admin.coupons.create');
     Route::post('/admin/coupon/store', [AdminController::class, 'add_coupon_store'])->name('admin.coupon.store');
     Route::get('/admin/coupon/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit_coupon'])->name('admin.coupon.edit');
     Route::put('/admin/coupon/update/{id}', [AdminController::class, 'update_coupon'])->name('admin.coupon.update');
     Route::delete('/admin/coupon/destroy/{id}', [App\Http\Controllers\AdminController::class, 'destroy_coupon'])->name('admin.coupon.destroy');
+
+
 
 });
 
