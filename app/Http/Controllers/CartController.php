@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Coupon;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Surfsidemedia\Shoppingcart\Facades\Cart as Cart;
 
 class CartController extends Controller
 {
+    // Cart
     public function index()
     {
         $items = Cart::instance('cart')->content();
@@ -39,9 +43,6 @@ class CartController extends Controller
     {
         return md5(json_encode(Cart::instance('cart')->content()));
     }
-
-
-
 
     public function addToCart(Request $request)
     {
@@ -77,6 +78,8 @@ class CartController extends Controller
         session()->forget('cart_hash');
         return redirect()->back();
     }
+
+    // Coupons
 
     public function apply_coupon_code(Request $request)
     {
@@ -125,5 +128,17 @@ class CartController extends Controller
         session()->forget('discounts');
         session()->forget('cart_hash');
         return back()->with('status', 'Coupon has been removed!');
+    }
+
+    // Check-out
+    public function checkout(){
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
+        $user = User::select('name','mobile')->get();
+        $address = Address::where('user_id',Auth::user()->id)
+        ->where('isdefault',1)
+        ->first();
+        return view('checkout.index',compact('address','user'));
     }
 }
