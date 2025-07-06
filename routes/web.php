@@ -20,14 +20,17 @@ Route::get('shop/{product_slug}', [ShopController::class, 'showProductDetails'])
 
 
 //         Cart route
-Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
 Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
 Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
 
+//         Check-Out
 Route::get('/checkout',[CartController::class,'checkout'])->name('cart.checkout');
+Route::post('/place-order',[CartController::class,'place_order'])->name('cart.place_order');
+Route::get('/order-confirmation',[CartController::class, 'order_confirmation'])->name('cart.confirmation');
 
 //           Coupons
 Route::post('/cart/apply-coupon',[CartController::class,'apply_coupon_code'])->name('cart.coupon.apply');

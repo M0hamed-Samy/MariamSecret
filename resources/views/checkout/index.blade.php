@@ -35,8 +35,8 @@
                 </span>
             </a>
         </div>
-        {{-- <form name="checkout-form" action="{{route('cart.place.order')}}" method="POST"> --}}
-        <form name="checkout-form" action="#" method="POST">
+        <form name="checkout-form" action="{{route('cart.place_order')}}" method="POST">
+        {{-- <form name="checkout-form" action="" method="POST"> --}}
             @csrf
             <div class="checkout-form">
                 <div class="billing-info__wrapper">
@@ -215,19 +215,19 @@
                         <div class="checkout__payment-methods">
                             <div class="form-check">
                                 <input class="form-check-input form-check-input_fill" type="radio" name="mode" value="card">
-                                <label class="form-check-label" for="mode_1">
+                                <label class="form-check-label" for="mode1" id="mode1">
                                     Debit or Credit Card                                    
                                 </label>
                             </div> 
                             <div class="form-check">
                                 <input class="form-check-input form-check-input_fill" type="radio" name="mode" value="paypal">
-                                <label class="form-check-label" for="mode_4">
+                                <label class="form-check-label" for="mode2"id="mode2">
                                     Paypal                                    
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input form-check-input_fill" type="radio" name="mode" value="cod" checked>
-                                <label class="form-check-label" for="mode_3">
+                                <label class="form-check-label" for="mode3"id="mode3">
                                     Cash on delivery                                    
                                 </label>
                             </div>
