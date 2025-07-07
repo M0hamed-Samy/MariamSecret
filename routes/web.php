@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
 // Public routes
 
 //         Shop route
@@ -86,13 +86,24 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.order.index');
     Route::get('/admin/order/{order_id}/details', [AdminController::class, 'order_details'])->name('admin.order.show');
     Route::put('/admin/order/update-status', [AdminController::class, 'update_order_status'])->name('admin.order.status.update');
+    
+    // Main-slide
+    Route::get('/admin/slides',[AdminController::class,'slides'])->name('admin.slides.index');
+    Route::get('/admin/slides/create',[AdminController::class, 'slide_add'])->name('admin.slides.create');
+    Route::post('/admin/slides/store', [AdminController::class, 'slide_store'])->name('admin.slides.store');
+    Route::get('/admin/slides/edit/{id}', [AdminController::class, 'slide_edit'])->name('admin.slides.edit');
+    Route::put('/admin/slides/update',[AdminController::class, 'slide_update'])->name('admin.slides.update');
+    Route::delete('/admin/slides/{id}', [AdminController::class, 'slide_destroy'])->name('admin.slides.destroy');
+
 });
 
 
 // User routes
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/account-orders/{order_id}/details', [UserController::class, 'account_order_details'])->name('user.order.details');
     Route::put('/account-order/cancel-order', [UserController::class, 'account_cancel_order'])->name('user.account_cancel_order');
+     Route::get('/account-details', [UserController::class, 'edit'])->name('account.edit');
+    Route::post('/account-details/update', [UserController::class, 'update'])->name('account.update');
 });

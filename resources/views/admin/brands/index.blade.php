@@ -1,87 +1,106 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
-    <style>
-        .table> :not(caption)>tr>th {
-            padding: 0.625rem 1.5rem .625rem !important;
-            background-color: #6a6e51 !important;
-        }
+    <div class="main-content-inner">
 
-        .table>tr>td {
-            padding: 0.625rem 1.5rem .625rem !important;
-        }
+        <div class="main-content-wrap">
+            <div class="flex items-center flex-wrap justify-between gap20 mb-27">
+                <h3>Brands</h3>
+                <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                    <li>
+                        <a href="{{ route('admin.index') }}">
+                            <div class="text-tiny">Dashboard</div>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-chevron-right"></i>
+                    </li>
+                    <li>
+                        <div class="text-tiny">Brands</div>
+                    </li>
+                </ul>
+            </div>
 
-        .table-bordered> :not(caption)>tr>th,
-        .table-bordered> :not(caption)>tr>td {
-            border-width: 1px 1px;
-            border-color: #6a6e51;
-        }
-
-        .table> :not(caption)>tr>td {
-            padding: .8rem 1rem !important;
-        }
-    </style>
-    <main class="pt-90">
-        <div class="mb-4 pb-4"></div>
-        <section class="my-account container">
-            <h2 class="page-title">Orders</h2>
-            <div class="row">
-                <div class="col-lg-2">
-                    @include('user.account-nav')
+            <div class="wg-box">
+                <div class="flex items-center justify-between gap10 flex-wrap">
+                    <div class="wg-filter flex-grow">
+                        <form class="form-search">
+                            <fieldset class="name">
+                                <input type="text" placeholder="Search here..." class="" name="name"
+                                    tabindex="2" value="" aria-required="true" required="">
+                            </fieldset>
+                            <div class="button-submit">
+                                <button class="" type="submit"><i class="icon-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <a class="tf-button style-1 w208" href="{{ route('admin.brands.create') }}"><i class="icon-plus"></i>Add
+                        new</a>
                 </div>
-                <div class="col-lg-10">
-                    <div class="wg-table table-all-user">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <thead>
+                <div class="wg-table table-all-user">
+                    <div class="table-responsive">
+                        @if (Session::has('status'))
+                            <div class="alert alert-success text-center">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Slug</th>
+                                    <th>Products</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($brands as $brand)
                                     <tr>
-                                        <th style="width: 80px">OrderNo</th>
-                                        <th>Name</th>
-                                        <th class="text-center">Phone</th>
-                                        <th class="text-center">Subtotal</th>
-                                        <th class="text-center">Tax</th>
-                                        <th class="text-center">Total</th>
-
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Order Date</th>
-                                        <th class="text-center">Items</th>
-                                        <th class="text-center">Delivered On</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($orders as $order)
-                                        <tr>
-                                            <td class="text-center">{{ $order->id }}</td>
-                                            <td class="text-center">{{ $order->name }}</td>
-                                            <td class="text-center">{{ $order->phone }}</td>
-                                            <td class="text-center">{{ $order->subtotal }} LE</td>
-                                            <td class="text-center">{{ $order->tax }} LE</td>
-                                            <td class="text-center">{{ $order->total }} LE</td>
-                                            <td class="text-center">{{ $order->status }}</td>
-                                            <td class="text-center">{{ $order->created_at }}</td>
-                                            <td class="text-center"> {{ $order->orderItems->count() }}</td>
-                                            <td class="text-center">{{ $order->delivered_date }}</td>
-                                            <td class="text-center">
-                                                <a href="http://localhost:8000/account-order-detials/1">
-                                                    <div class="list-icon-function view-icon">
-                                                        <div class="item eye">
-                                                            <i class="fa fa-eye"></i>
-                                                        </div>
+                                        <td>{{ $brand->id }}</td>
+                                        <td class="pname">
+                                            <div class="image">
+                                                <img src="{{ asset('uploads/brands/' . $brand->image) }}"
+                                                    alt="{{ $brand->name }}" class="image">
+                                            </div>
+                                            <div class="name">
+                                                <a href="#" class="body-title-2">{{ $brand->name }}</a>
+                                            </div>
+                                        </td>
+                                        <td>{{ $brand->slug }}</td>
+                                        <td><a href="#" target="_blank">1</a></td>
+                                        <td>
+                                            <div class="list-icon-function">
+                                                <a href="{{ route('admin.brands.edit', ['id' => $brand->id]) }}">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
                                                     </div>
                                                 </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                <form action="{{ route('admin.brands.destroy', ['id' => $brand->id]) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this brand?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="item text-danger delete"
+                                                        style="border: none; background: transparent;">
+                                                        <i class="icon-trash-2"></i>
+                                                    </button>
+                                                </form>
 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
+                    <div class="divider"></div>
                     <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                        {{ $orders->links('pagination::bootstrap-5') }}
+                        {{ $brands->links('pagination::bootstrap-5') }}
+
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 @endsection

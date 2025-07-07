@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -16,6 +17,46 @@ class UserController extends Controller
         return view('user.index');
     }
 
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('user.account-details', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'mobile' => ['required', 'regex:/^01[0125][0-9]{8}$/'],
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'old_password' => 'nullable|required_with:new_password|string',
+                'new_password' => 'nullable|min:8|confirmed'
+            ],
+            [
+                'mobile.regex' => 'The mobile number must be a valid Egyptian number (e.g., 010xxxxxxxx).',
+            ]
+        );
+
+        // Update basic info
+        $user->name = $request->name;
+        $user->mobile = $request->mobile;
+        $user->email = $request->email;
+
+        // Handle password change
+        if ($request->filled('new_password')) {
+            if (!Hash::check($request->old_password, $user->password)) {
+                return back()->withErrors(['old_password' => 'Old password is incorrect.']);
+            }
+            $user->password = Hash::make($request->new_password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Account updated successfully.');
+    }
     public function orders()
     {
         $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(12);

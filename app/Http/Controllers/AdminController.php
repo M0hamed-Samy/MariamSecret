@@ -9,6 +9,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Slide;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,7 +21,23 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $orders = Order::orderBy('created_at', 'DESC')->get()->take(10);
+        $allorders = Order::all();
+        $deliveredOrders = Order::where('status', 'delivered')->get();
+        $canceledOrders = Order::where('status', 'canceled');
+        $pendingOrders = Order::where('status', 'ordered');
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $revenueThisWeek = Order::where('status', 'delivered')
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->sum('total');
+
+        $ordersThisWeek = Order::where('status', 'delivered')
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->count();
+        return view('admin.index', compact('orders', 'deliveredOrders', 'canceledOrders', 'pendingOrders','revenueThisWeek','ordersThisWeek'));
     }
     //              Brands
     public function brands()
@@ -532,12 +549,110 @@ class AdminController extends Controller
             $order->canceled_date = Carbon::now();
         }
         $order->save();
-        
+
         if ($request->order_status == 'delivered') {
             $transaction = Transaction::where('order_id', $request->order_id)->first();
             $transaction->status = "approved";
             $transaction->save();
         }
         return back()->with("status", "Status changed successfully!");
+    }
+
+    public function slides()
+    {
+        $slides = Slide::orderBy('id', "DESC")->paginate(12);
+        return view('admin.main-slide.index', compact('slides'));
+    }
+
+    public function slide_add()
+    {
+        return view('admin.main-slide.create');
+    }
+    public function slide_store(Request $request)
+    {
+        $request->validate([
+            'tagline' => 'required',
+            'title' => 'required',
+            'subtitle' => 'required',
+            'link' => 'required',
+            'status' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        $slide = new Slide();
+        $slide->tagline = $request->tagline;
+        $slide->title = $request->title;
+        $slide->subtitle = $request->subtitle;
+        $slide->link = $request->link;
+        $slide->status = $request->status;
+        $slide->tagline = $request->tagline;
+        $image = $request->file('image');
+        $file_extention = $request->file('image')->extension();
+        $file_name = Carbon::now()->timestamp . '.' . $file_extention;
+        $this->GenerateSlideThumbnailsImage($image, $file_name);
+        $slide->image = $file_name;
+        $slide->save();
+        return redirect()->route('admin.slides.index')->with('status', 'Slide added successfully!');
+    }
+    public function GenerateSlideThumbnailsImage($image, $imageName)
+    {
+        $destinationPath = public_path('uploads/slides');
+        $img = Image::read($image->path());
+        $img->cover(400, 690, "top");
+        $img->resize(400, 690, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath . '/' . $imageName);
+    }
+
+    public function slide_edit($id)
+    {
+        $slide = Slide::findOrFail($id);
+        return view('admin.main-slide.edit', compact('slide'));
+    }
+
+    public function slide_update(Request $request)
+    {
+        $request->validate([
+            'tagline' => 'nullable',
+            'title' => 'nullable',
+            'subtitle' => 'nullable',
+            'link' => 'nullable',
+            'status' => 'nullable',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        $slide = Slide::findOrFail($request->id);
+        $slide->tagline = $request->tagline;
+        $slide->title = $request->title;
+        $slide->subtitle = $request->subtitle;
+        $slide->link = $request->link;
+        $slide->status = $request->status;
+        $slide->tagline = $request->tagline;
+
+        if ($request->hasFile('image')) {
+            if (File::exists(public_path('uploads/slides') . '/' . $slide->image)) {
+                File::delete(public_path('uploads/slides') . '/' . $slide->image);
+            }
+            $image = $request->file('image');
+            $file_extention = $request->file('image')->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extention;
+            $this->GenerateSlideThumbnailsImage($image, $file_name);
+            $slide->image = $file_name;
+        }
+        $slide->save();
+        return redirect()->route('admin.slides.index')->with('status', 'Slide has been updated successfully!');
+    }
+    public function slide_destroy($id)
+    {
+        $slide = Slide::findOrFail($id);
+
+        // Delete image from storage if exists
+        if ($slide->image && File::exists(public_path('uploads/slides/' . $slide->image))) {
+            File::delete(public_path('uploads/slides/' . $slide->image));
+        }
+
+        $slide->delete();
+
+        return redirect()->route('admin.slides.index')->with('status', 'Slide deleted successfully!');
     }
 }

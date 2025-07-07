@@ -55,30 +55,13 @@
                             @endif --}}
                             </div>
                         </div>
-                        @if ($address)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="my-account__address-list">
-                                        <div class="my-account__address-item">
-                                            <div class="my-account__address-item__detail">
-                                                <p>{{ $address->name }}</p>
-                                                <p>{{ $address->address }}</p>
-                                                <p>{{ $address->landmark }}</p>
-                                                <p>{{ $address->city }}, {{ $address->state }}, {{ $address->country }}</p>
-                                                <p>{{ $address->zip }}</p>
-
-                                                <p>Phone :  {{ $address->phone }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
+                        
+                       
                             <div class="row mt-5">
                                 <div class="col-md-6">
                                     <div class="form-floating my-3">
                                         <input type="text" class="form-control" name="name"
-                                            value="{{ old('name') }}">
+                                            value="{{Auth::user()->name}}">
                                         <label for="name">Full Name *</label>
                                         <span class="text-danger">
                                             @error('name')
@@ -102,7 +85,6 @@
                                                     {{ $message }}
                                                 @enderror
                                             </span>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
