@@ -6,7 +6,7 @@
                 <h3>Orders</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
-                        <a href="{{ route( 'admin.index' ) }}">
+                        <a href="{{ route('admin.index') }}">
                             <div class="text-tiny">Dashboard</div>
                         </a>
                     </li>
@@ -53,32 +53,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($orders as $order )
-                                    
-                               
-                                <tr>
-                                    <td class="text-center">{{ $order->id }}</td>
-                                    <td class="text-center">{{ $order->name }}</td>
-                                    <td class="text-center">{{ $order->phone }}</td>
-                                    <td class="text-center">{{ $order->subtotal }}LE</td>
-                                    <td class="text-center">{{ $order->tax }} LE</td>
-                                    <td class="text-center">{{ $order->total }} LE</td>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td class="text-center">{{ $order->id }}</td>
+                                        <td class="text-center">{{ $order->name }}</td>
+                                        <td class="text-center">{{ $order->phone }}</td>
+                                        <td class="text-center">{{ $order->subtotal }}LE</td>
+                                        <td class="text-center">{{ $order->tax }} LE</td>
+                                        <td class="text-center">{{ $order->total }} LE</td>
 
-                                    <td class="text-center">{{ $order->status }}</td>
-                                    <td class="text-center">{{ $order->created_at }}</td>
-                                    <td class="text-center"> {{ $order->orderItems->count() }}</td>
-                                    <td class="text-center">{{ $order->delivered_date }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('admin.order.show',['order_id'=>$order->id]) }}">
-                                            <div class="list-icon-function view-icon">
-                                                <div class="item eye">
-                                                    <i class="icon-eye"></i>
+                                        <td>
+                                            @if ($order->status == 'delivered')
+                                                <span class="badge bg-success">Delivered</span>
+                                            @elseif ($order->status == 'canceled')
+                                                <span class="badge bg-danger">Canceled</span>
+                                            @else
+                                                <span class="badge bg-warning">Ordered</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">{{ $order->created_at }}</td>
+                                        <td class="text-center"> {{ $order->orderItems->count() }}</td>
+                                        <td class="text-center">{{ $order->delivered_date }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.order.show', ['order_id' => $order->id]) }}">
+                                                <div class="list-icon-function view-icon">
+                                                    <div class="item eye">
+                                                        <i class="icon-eye"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </td>
-                                </tr>
-                                 @endforeach
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>

@@ -16,6 +16,26 @@
             border-color: #6a6e51;
         }
 
+        .badge.bg-success {
+            background-color: #28a745 !important;
+            /* Bootstrap green */
+            color: #fff !important;
+        }
+
+        .badge.bg-danger {
+            background-color: #dc3545 !important;
+            /* Bootstrap red */
+            color: #fff !important;
+        }
+
+        .badge.bg-warning {
+            background-color: #ffc107 !important;
+            /* Bootstrap yellow */
+            color: #212529 !important;
+            /* Dark text for contrast */
+        }
+
+
         .table> :not(caption)>tr>td {
             padding: .8rem 1rem !important;
         }
@@ -31,6 +51,7 @@
                 <div class="col-lg-10">
                     <div class="wg-table table-all-user">
                         <div class="table-responsive">
+                            
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -57,12 +78,20 @@
                                             <td class="text-center">{{ $order->subtotal }} LE</td>
                                             <td class="text-center">{{ $order->tax }} LE</td>
                                             <td class="text-center">{{ $order->total }} LE</td>
-                                            <td class="text-center">{{ $order->status }}</td>
+                                            <td>
+                                                @if ($order->status == 'delivered')
+                                                    <span class="badge bg-success">Delivered</span>
+                                                @elseif ($order->status == 'canceled')
+                                                    <span class="badge bg-danger">Canceled</span>
+                                                @else
+                                                    <span class="badge bg-warning">Ordered</span>
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{ $order->created_at }}</td>
                                             <td class="text-center"> {{ $order->orderItems->count() }}</td>
                                             <td class="text-center">{{ $order->delivered_date }}</td>
                                             <td class="text-center">
-                                                <a href="http://localhost:8000/account-order-detials/1">
+                                                <a href="{{ route('user.order.details', ['order_id' => $order->id]) }}">
                                                     <div class="list-icon-function view-icon">
                                                         <div class="item eye">
                                                             <i class="fa fa-eye"></i>
@@ -78,8 +107,6 @@
                             </table>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                        {{ $orders->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </section>
