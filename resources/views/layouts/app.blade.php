@@ -17,7 +17,7 @@
 
                <meta name="viewport" content="width=device-width, initial-scale=1" />
                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-               <meta name="author" content="surfside media" />
+               <meta name="author" content="Mohamed Samy" />
                <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
                <link rel="preconnect" href="https://fonts.gstatic.com/">
                <link
@@ -343,7 +343,7 @@
                                        <a href="about.html" class="navigation__link">About</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="contact.html" class="navigation__link">Contact</a>
+                                       <a href="{{ route('contacts') }}" class="navigation__link">Contact</a>
                                    </li>
                                </ul>
                            </div>
@@ -366,7 +366,7 @@
 
                            <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
                                <li>
-                                   <a href="#" class="footer__social-link d-block ps-0">
+                                   <a href="https://www.facebook.com/mariam.secret1/" class="footer__social-link d-block ps-0">
                                        <svg class="svg-icon svg-icon_facebook" width="9" height="15"
                                            viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg">
                                            <use href="#icon_facebook" />
@@ -382,7 +382,7 @@
                                    </a>
                                </li>
                                <li>
-                                   <a href="#" class="footer__social-link d-block">
+                                   <a href="https://www.instagram.com/mariam.secrets/?hl=en" class="footer__social-link d-block">
                                        <svg class="svg-icon svg-icon_instagram" width="14" height="13"
                                            viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
                                            <use href="#icon_instagram" />
@@ -437,13 +437,13 @@
                                        <a href="about.html" class="navigation__link">About</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="contact.html" class="navigation__link">Contact</a>
+                                       <a href="{{ route('contacts') }}" class="navigation__link">Contact</a>
                                    </li>
                                </ul>
                            </nav>
 
                            <div class="header-tools d-flex align-items-center">
-                               <div class="header-tools__item hover-container">
+                               {{-- <div class="header-tools__item hover-container">
                                    <div class="js-hover__open position-relative">
                                        <a class="js-search-popup search-field__actor" href="#">
                                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20"
@@ -496,7 +496,7 @@
                                            </div>
                                        </form>
                                    </div>
-                               </div>
+                               </div> --}}
                                @guest
                                    <div class="header-tools__item hover-container">
                                        <a href="{{ route('login') }}" class="header-tools__item">
@@ -556,17 +556,16 @@
                            <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
                                <div class="logo">
                                    <a href="{{ route('home.index') }}">
-                                       <img src="{{ asset('assets/images/logo.png') }}" alt="SurfsideMedia"
+                                       <img src="{{ asset('assets/images/logo.png') }}" alt="Logo"
                                            class="logo__image d-block" />
                                    </a>
                                </div>
-                               <p class="footer-address">123 Beach Avenue, Surfside City, CA 00000</p>
-                               <p class="m-0"><strong class="fw-medium">contact@surfsidemedia.in</strong></p>
+                               <p class="m-0"><strong class="fw-medium">contact@mariamsecrets.in</strong></p>
                                <p><strong class="fw-medium">+1 000-000-0000</strong></p>
 
                                <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                                    <li>
-                                       <a href="#" class="footer__social-link d-block">
+                                       <a href="https://www.facebook.com/mariam.secret1/" class="footer__social-link d-block">
                                            <svg class="svg-icon svg-icon_facebook" width="9" height="15"
                                                viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg">
                                                <use href="#icon_facebook" />
@@ -582,7 +581,7 @@
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="#" class="footer__social-link d-block">
+                                       <a href="https://www.instagram.com/mariam.secrets/?hl=en" class="footer__social-link d-block">
                                            <svg class="svg-icon svg-icon_instagram" width="14" height="13"
                                                viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
                                                <use href="#icon_instagram" />
@@ -623,7 +622,7 @@
                                    </li>
                                    <li class="sub-menu__item"><a href="blog_list1.html"
                                            class="menu-link menu-link_us-s">Blog</a></li>
-                                   <li class="sub-menu__item"><a href="contact-2.html"
+                                   <li class="sub-menu__item"><a href="{{ route('contacts') }}"
                                            class="menu-link menu-link_us-s">Contact
                                            Us</a></li>
                                </ul>

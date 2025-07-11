@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -37,7 +38,7 @@ class AdminController extends Controller
         $ordersThisWeek = Order::where('status', 'delivered')
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->count();
-        return view('admin.index', compact('orders', 'deliveredOrders', 'canceledOrders', 'pendingOrders','revenueThisWeek','ordersThisWeek'));
+        return view('admin.index', compact('orders', 'deliveredOrders', 'canceledOrders', 'pendingOrders', 'revenueThisWeek', 'ordersThisWeek'));
     }
     //              Brands
     public function brands()
@@ -231,8 +232,8 @@ class AdminController extends Controller
     {
         $destinationPath = public_path('uploads/categories');
         $img = Image::read($image->path());
-        $img->cover(124, 124, "top");
-        $img->resize(124, 124, function ($constraint) {
+        $img->cover(120, 120, "top");
+        $img->resize(120, 120, function ($constraint) {
             $constraint->aspectRatio();
         })->save($destinationPath . '/' . $imageName);
     }
@@ -278,13 +279,16 @@ class AdminController extends Controller
             'brand_id' => 'required',
             'short_description' => 'required',
             'description' => 'required',
-            'regular_price' => 'required',
-            'sale_price' => 'required',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price'    => 'required|numeric|lt:regular_price|min:0',
             'SKU' => 'required',
             'stock_status' => 'required',
             'featured' => 'required',
             'quantity' => 'required',
+            'size' => 'nullable',
             'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+        ], [
+            'sale_price.lt' => 'Sale price must be less than the regular price.',
         ]);
         $product = new Product();
         $product->name = $request->name;
@@ -294,6 +298,8 @@ class AdminController extends Controller
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
+        $product->size = $request->size;
+
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
         $product->quantity = $request->quantity;
@@ -365,14 +371,17 @@ class AdminController extends Controller
             'brand_id'         => 'required',
             'short_description' => 'required',
             'description'      => 'required',
-            'regular_price'    => 'required',
-            'sale_price'       => 'required',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price'    => 'required|numeric|lt:regular_price|min:0',
             'SKU'              => 'required',
             'stock_status'     => 'required',
             'featured'         => 'required',
             'quantity'         => 'required',
+            'size' => 'nullable',
             'image'            => 'nullable|mimes:png,jpg,jpeg|max:2048',
             'images.*'         => 'nullable|mimes:png,jpg,jpeg'
+        ], [
+            'sale_price.lt' => 'Sale price must be less than the regular price.',
         ]);
 
         $product = Product::find($request->id);
@@ -382,6 +391,7 @@ class AdminController extends Controller
         $product->description       = $request->description;
         $product->regular_price     = $request->regular_price;
         $product->sale_price        = $request->sale_price;
+        $product->size = $request->size;
         $product->SKU               = $request->SKU;
         $product->stock_status      = $request->stock_status;
         $product->featured          = $request->featured;
@@ -654,5 +664,18 @@ class AdminController extends Controller
         $slide->delete();
 
         return redirect()->route('admin.slides.index')->with('status', 'Slide deleted successfully!');
+    }
+
+    public function contact()
+    {
+        $contacts = Contact::orderBy('id', 'DESC')->paginate(12);
+        return view('admin.contact', compact('contacts'));
+    }
+    public function destroyContact($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+
+        return redirect()->route('admin.contacts')->with('success', 'Contact deleted successfully.');
     }
 }

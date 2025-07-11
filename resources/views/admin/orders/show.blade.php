@@ -31,8 +31,8 @@
                     <a class="tf-button style-1 w208" href="{{ route('admin.order.index') }}">Back</a>
                 </div>
                 <div class="table-responsive">
-                    @if (Session::has('status'))
-                        <p class="aler alert-success">{{ Session::get('status') }}</p>
+                    @if (Session::has('success'))
+                        <p class="aler alert-success">{{ Session::get('success') }}</p>
                     @endif
                     <table class="table table-striped table-bordered">
                         <tr>
@@ -103,7 +103,7 @@
                                                 target="_blank" class="body-title-2">{{ $item->product->name }}</a>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $item->price }}LE</td>
+                                    <td class="text-center">{{ $item->price }}EGP</td>
                                     <td class="text-center">{{ $item->quantity }}</td>
                                     <td class="text-center">{{ $item->product->SKU }}</td>
                                     <td class="text-center">{{ $item->product->category->name }}</td>
@@ -181,15 +181,15 @@
                     <tbody>
                         <tr>
                             <th>Subtotal</th>
-                            <td>{{ $order->subtotal }} LE</td>
+                            <td>{{ $order->subtotal }} EGP</td>
                             <th>Tax</th>
-                            <td>{{ $order->tax }} LE</td>
+                            <td>{{ $order->tax }} EGP</td>
                             <th>Discount</th>
-                            <td>{{ $order->discount }} LE</td>
+                            <td>{{ $order->discount }} EGP</td>
                         </tr>
                         <tr>
                             <th>Total</th>
-                            <td>{{ $order->total }} LE</td>
+                            <td>{{ $order->total }} EGP</td>
                             <th>Payment Mode</th>
                             <td>{{ $transaction->mode }}</td>
                             <th>Status</th>

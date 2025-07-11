@@ -49,6 +49,7 @@
                                 <th>Featured</th>
                                 <th>Stock</th>
                                 <th>Quantity</th>
+                                <th>Size</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -72,9 +73,15 @@
                                     <td>{{ $product->SKU }}</td>
                                     <td>{{ $product->category->name ?? 'No Category' }}</td>
                                     <td>{{ $product->brand->name ?? 'No Brand' }}</td>
-                                    <td>{{ $product->feautured == 0 ? 'No' : 'Yes' }}</td>
+                                    <td>{{ $product->featured == 0 ? 'No' : 'Yes' }}</td>
                                     <td>{{ $product->stock_status }}</td>
                                     <td>{{ $product->quantity }}</td>
+                                    @if (!empty($product->size ))
+                                        <td>{{ $product->size }} ml</td>
+                                    @else
+                                        <td>None</td>
+                                    @endif
+                                    
                                     <td>
                                         <div class="list-icon-function">
                                             

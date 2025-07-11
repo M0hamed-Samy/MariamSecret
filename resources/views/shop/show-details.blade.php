@@ -18,25 +18,13 @@
                         <div class="product-single__image">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide product-single__image-item">
-                                        <img loading="lazy" class="h-auto"
-                                            src="{{ asset('uploads/products/' . $product->image) }}" width="674"
-                                            height="674" alt="" />
-                                        <a data-fancybox="gallery" href="{{ asset('uploads/products/' . $product->image) }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_zoom" />
-                                            </svg>
-                                        </a>
-                                    </div>
-
-                                    @foreach (explode(',', $product->images) as $image)
+                                    @if (!empty($product->image))
                                         <div class="swiper-slide product-single__image-item">
                                             <img loading="lazy" class="h-auto"
-                                                src="{{ asset('uploads/products/' . $image) }}" width="674"
+                                                src="{{ asset('uploads/products/' . $product->image) }}" width="674"
                                                 height="674" alt="" />
-                                            <a data-fancybox="gallery" href="{{ asset('uploads/products/' . $image) }}"
+                                            <a data-fancybox="gallery"
+                                                href="{{ asset('uploads/products/' . $product->image) }}"
                                                 data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -44,6 +32,23 @@
                                                 </svg>
                                             </a>
                                         </div>
+                                    @endif
+
+                                    @foreach (explode(',', $product->images) as $image)
+                                        @if (!empty($image))
+                                            <div class="swiper-slide product-single__image-item">
+                                                <img loading="lazy" class="h-auto"
+                                                    src="{{ asset('uploads/products/' . $image) }}" width="674"
+                                                    height="674" alt="" />
+                                                <a data-fancybox="gallery" href="{{ asset('uploads/products/' . $image) }}"
+                                                    data-bs-toggle="tooltip" data-bs-placement="left" title="Zoom">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <use href="#icon_zoom" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        @endif
                                     @endforeach
 
 
@@ -61,17 +66,22 @@
                         <div class="product-single__thumbnail">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
+                                    <div class="swiper-slide product-single__image-item">
+                                        <img loading="lazy" class="h-auto"
+                                            src="{{ asset('uploads/products/' . $product->image) }}"
+                                            alt="{{ $product->name }}"
+                                            style="width: 104px !important; height: 104px !important; object-fit: cover !important; border-radius: 6px !important;" />
+                                    </div>
 
-                                    <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
-                                            src="{{ asset('uploads/products/' . $product->image) }}" width="104"
-                                            height="104" alt="{{ $product->name }}" /></div>
                                     @foreach (explode(',', $product->images) as $image)
-                                        <div class="swiper-slide product-single__image-item"><img loading="lazy"
-                                                class="h-auto" src="{{ asset('uploads/products/' . $image) }}"
-                                                width="104" height="104" alt="" /></div>
+                                        <div class="swiper-slide product-single__image-item">
+                                            <img loading="lazy" class="h-auto"
+                                                src="{{ asset('uploads/products/' . $image) }}" alt=""
+                                                style="width: 104px !important; height: 104px !important; object-fit: cover !important; border-radius: 6px !important;" />
+                                        </div>
                                     @endforeach
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -122,9 +132,9 @@
                         <span class="current-price">
 
                             @if ($product->sale_price && $product->sale_price != $product->regular_price)
-                                <s>{{ $product->regular_price }} LE</s> {{ $product->sale_price }} LE
+                                <s>{{ $product->regular_price }} EGP</s> {{ $product->sale_price }} EGP
                             @else
-                                {{ $product->regular_price }} LE
+                                {{ $product->regular_price }} EGP
                             @endif
                         </span>
 
@@ -155,7 +165,7 @@
                         </form>
                     @endif
                     <div class="product-single__addtolinks">
-                        
+
                         @if (Cart::instance('wishlist')->content()->Where('id', $product->id)->count() > 0)
                             <form method="POST"
                                 action="{{ route('wishlist.remove', ['rowId' => Cart::instance('wishlist')->content()->Where('id', $product->id)->first()->rowId]) }}"
@@ -220,20 +230,20 @@
                         <script src="js/details-disclosure.html" defer="defer"></script>
                         <script src="js/share.html" defer="defer"></script>
                     </div>
-                    <div class="product-single__meta-info">
-                        <div class="meta-item">
-                            <label>SKU:</label>
-                            <span>{{ $product->SKU }}</span>
-                        </div>
-                        <div class="meta-item">
-                            <label>Categories:</label>
-                            <span>{{ $product->category->name }}</span>
-                        </div>
-                        <div class="meta-item">
-                            <label>Brand:</label>
-                            <span>{{ $product->brand->name }}</span>
-                        </div>
-                    </div>
+                    {{-- <div class="product-single__meta-info">
+                            <div class="meta-item">
+                                <label>SKU:</label>
+                                <span>{{ $product->SKU }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <label>Categories:</label>
+                                <span>{{ $product->category->name }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <label>Brand:</label>
+                                <span>{{ $product->brand->name }}</span>
+                            </div>
+                        </div> --}}
                 </div>
             </div>
             <div class="product-single__details-tab">
@@ -262,31 +272,32 @@
                         </div>
                     </div>
                     {{-- i need here to add more information for the product like product more information --}}
-                    {{-- <div class="tab-pane fade" id="tab-additional-info" role="tabpanel"
+                    <div class="tab-pane fade" id="tab-additional-info" role="tabpanel"
                         aria-labelledby="tab-additional-info-tab">
                         <div class="product-single__addtional-info">
                             <div class="item">
-                                <label class="h6">Weight</label>
-                                <span>1.25 kg</span>
+                                <label class="h6">SKU</label>
+                                <span>{{ $product->SKU }}</span>
                             </div>
                             <div class="item">
-                                <label class="h6">Dimensions</label>
-                                <span>90 x 60 x 90 cm</span>
+                                <label class="h6">Category</label>
+                                <span>{{ $product->category->name }}</span>
                             </div>
                             <div class="item">
-                                <label class="h6">Size</label>
-                                <span>XS, S, M, L, XL</span>
+                                <label class="h6">Brand</label>
+                                <span>{{ $product->brand->name }}</span>
                             </div>
-                            <div class="item">
-                                <label class="h6">Color</label>
-                                <span>Black, Orange, White</span>
-                            </div>
-                            <div class="item">
-                                <label class="h6">Storage</label>
-                                <span>Relaxed fit shirt-style dress with a rugged</span>
-                            </div>
+                            @if (!empty($product->size))
+                                <div class="item">
+                                    <label class="h6">Size</label>
+                                    <span>{{ $product->size }} ml</span>
+                                </div>
+                            @endif
+
+
+
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
                         <h2 class="product-single__reviews-title">Reviews</h2>
                         <div class="product-single__reviews-list">
@@ -369,7 +380,7 @@
                         </div>
                         <div class="product-single__review-form">
                             <form name="customer-review-form">
-                                <h5>Be the first to review “Message Cotton T-Shirt”</h5>
+                                <h5>Be the first to review “{{ $product->name }}”</h5>
                                 <p>Your email address will not be published. Required fields are marked *</p>
                                 <div class="select-star-rating">
                                     <label>Your rating *</label>
@@ -516,7 +527,14 @@
                                             href="{{ route('shop.show-details', ['product_slug' => $rproduct->slug]) }}">{{ $rproduct->name }}</a>
                                     </h6>
                                     <div class="product-card__price d-flex">
-                                        <span class="money price">${{ $rproduct->regular_price }}</span>
+
+                                        <span class="money price">
+                                            @if ($rproduct->sale_price && $rproduct->sale_price != $rproduct->regular_price)
+                                                <s>{{ $rproduct->regular_price }} EGP</s> {{ $rproduct->sale_price }} EGP
+                                            @else
+                                                {{ $rproduct->regular_price }} EGP
+                                            @endif
+                                        </span>
                                     </div>
                                     @if (Cart::instance('wishlist')->content()->Where('id', $rproduct->id)->count() > 0)
                                         <form method="POST"

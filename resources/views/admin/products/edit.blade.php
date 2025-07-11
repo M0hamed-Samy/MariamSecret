@@ -5,10 +5,10 @@
         <!-- main-content-wrap -->
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>Add Product</h3>
+                <h3>Edit Product</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
-                        <a href="index.html"><div class="text-tiny">Dashboard</div></a>
+                        <a href="{{ route('admin.index') }}"><div class="text-tiny">Dashboard</div></a>
                     </li>
                     <li>
                         <i class="icon-chevron-right"></i>
@@ -20,7 +20,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">Add product</div>
+                        <div class="text-tiny">Edit product</div>
                     </li>
                 </ul>
             </div>
@@ -129,6 +129,10 @@
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter sale price" name="sale_price" tabindex="0" value="{{$product->sale_price}}" aria-required="true" required="">                                              
+                        </fieldset>
+                         <fieldset class="name">
+                            <div class="body-title mb-10">Size <span class="tf-color-1">*</span></div>
+                            <input class="mb-10" type="text" placeholder="Enter sale price" name="size" tabindex="0" value="{{$product->size}}" aria-required="true" required="">                                              
                         </fieldset>
                     </div>
                     <div class="cols gap22">

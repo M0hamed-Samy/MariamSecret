@@ -151,16 +151,21 @@ class CartController extends Controller
         $user_id = Auth::user()->id;
         $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
         if (!$address) {
-            $request->validate([
-                'name' => 'required|max:100',
-                'phone' => 'required|numeric|digits:10',
-                'zip' => 'required|numeric|digits:6',
-                'state' => 'required',
-                'city' => 'required',
-                'address' => 'required',
-                'locality' => 'required',
-                'landmark' => 'required'
-            ]);
+            $request->validate(
+                [
+                    'name' => 'required|max:100',
+                    'phone' => ['required', 'regex:/^01[0-2,5]{1}[0-9]{8}$/'],
+                    'zip' => 'nullable|numeric|digits:5',
+                    'state' => 'required',
+                    'city' => 'required',
+                    'address' => 'required',
+                    'locality' => 'required',
+                    'landmark' => 'required'
+                ],
+                [
+                    'phone.regex' => 'Please enter a valid Egyptian phone number (e.g., 010xxxxxxxx).',
+                ]
+            );
             $address = new Address();
             $address->user_id = $user_id;
             $address->name = $request->name;
@@ -220,9 +225,8 @@ class CartController extends Controller
         Session::forget('checkout');
         Session::forget('coupon');
         Session::forget('discounts');
-        Session::put('order_id',$order->id);
+        Session::put('order_id', $order->id);
         return redirect()->route('cart.confirmation');
-        
     }
     public function setAmountForCheckout()
     {
@@ -246,11 +250,12 @@ class CartController extends Controller
             ]);
         }
     }
-    public function order_confirmation(){
-        if(Session::has('order_id')){
+    public function order_confirmation()
+    {
+        if (Session::has('order_id')) {
 
-            $order= Order::findOrFail(Session::get('order_id'));
-            return view('checkout.confirmation',compact('order'));
+            $order = Order::findOrFail(Session::get('order_id'));
+            return view('checkout.confirmation', compact('order'));
         }
         return redirect()->route('cart.index');
     }

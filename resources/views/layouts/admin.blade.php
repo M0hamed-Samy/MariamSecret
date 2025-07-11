@@ -2,9 +2,9 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <title>SurfsideMedia</title>
+    <title>AdminSecret</title>
     <meta charset="utf-8">
-    <meta name="author" content="themesflat.com">
+    <meta name="author" content="Mohamed Samy">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.min.css') }}">
@@ -111,28 +111,17 @@
                                     </ul>
                                 </li>
 
-                                <li class="menu-item has-children">
-                                    <a href="javascript:void(0);" class="menu-item-button">
+                              
+                                <li class="menu-item">
+                                    <a href="{{ route('admin.order.index') }}" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-plus"></i></div>
-                                        <div class="text">Order</div>
+                                        <div class="text">Orders</div>
                                     </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('admin.order.index') }}" class="">
-                                                <div class="text">Orders</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="order-tracking.html" class="">
-                                                <div class="text">Order tracking</div>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li class="menu-item">
                                     <a href="{{ route('admin.slides.index') }}" class="">
                                         <div class="icon"><i class="icon-image"></i></div>
-                                        <div class="text">Slider</div>
+                                        <div class="text">Main Slide</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
@@ -143,9 +132,9 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="users.html" class="">
+                                    <a href="{{ route('admin.contacts') }}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
-                                        <div class="text">User</div>
+                                        <div class="text">Messages</div>
                                     </a>
                                 </li>
 
@@ -471,7 +460,7 @@
 
 
                         <div class="bottom-page">
-                            <div class="body-text">Copyright © 2024 SurfsideMedia</div>
+                            <div class="body-text">Copyright © 2024 Mohamed Samy</div>
                         </div>
                     </div>
 

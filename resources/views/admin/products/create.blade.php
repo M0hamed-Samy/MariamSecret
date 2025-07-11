@@ -148,25 +148,32 @@
                         <fieldset class="name">
                             <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter regular price" name="regular_price"
-                                tabindex="0" value="" aria-required="true">
+                                tabindex="0" value="{{ old(('regular_price')) }}" aria-required="true">
                         </fieldset>
+
                         @error('regular_price')
                             <span class="alert alert-danger text-center">{{ $message }}</span>
                         @enderror
+
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter sale price" name="sale_price"
-                                tabindex="0" value="" aria-required="true">
+                                tabindex="0" value="{{ old(('sale_price')) }}" aria-required="true">
                         </fieldset>
                         @error('sale_price')
                             <span class="alert alert-danger text-center">{{ $message }}</span>
                         @enderror
+                        <fieldset class="name">
+                            <div class="body-title mb-10">Size</div>
+                            <input class="mb-10" type="text" placeholder="Enter size" name="size" tabindex="0"
+                                value="{{ old(('size')) }}" aria-required="true">
+                        </fieldset>
                     </div>
                     <div class="cols gap22">
                         <fieldset class="name">
                             <div class="body-title mb-10">SKU <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter SKU" name="SKU" tabindex="0"
-                                value="" aria-required="true">
+                                value="{{ old(('SKU')) }}" aria-required="true">
                         </fieldset>
                         @error('SKU')
                             <span class="alert alert-danger text-center">{{ $message }}</span>
@@ -174,7 +181,7 @@
                         <fieldset class="name">
                             <div class="body-title mb-10">Quantity <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter quantity" name="quantity"
-                                tabindex="0" value="" aria-required="true">
+                                tabindex="0" value="{{ old(('quantity')) }}" aria-required="true">
                         </fieldset>
                         @error('quantity')
                             <span class="alert alert-danger text-center">{{ $message }}</span>

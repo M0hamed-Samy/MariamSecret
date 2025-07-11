@@ -56,12 +56,11 @@
                             </div>
                         </div>
                         
-                       
                             <div class="row mt-5">
                                 <div class="col-md-6">
                                     <div class="form-floating my-3">
                                         <input type="text" class="form-control" name="name"
-                                            value="{{Auth::user()->name}}">
+                                            value="{{ old('name') }}">
                                         <label for="name">Full Name *</label>
                                         <span class="text-danger">
                                             @error('name')
@@ -85,6 +84,7 @@
                                                     {{ $message }}
                                                 @enderror
                                             </span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -160,7 +160,6 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
                     </div>
                     <div class="checkout__totals-wrapper">
                         <div class="sticky-content">
@@ -181,7 +180,7 @@
                                                     {{ $item->name }} x {{ $item->qty }}
                                                 </td>
                                                 <td class="text-right">
-                                                    ${{ $item->subtotal }}
+                                                    {{ $item->subtotal }} EGP
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -192,27 +191,24 @@
                                         <tbody>
                                             <tr>
                                                 <th>Subtotal</th>
-                                                <td class="text-right">${{ Cart::instance('cart')->subtotal() }}</td>
+                                                <td class="text-right">{{ Cart::instance('cart')->subtotal() }} EGP</td>
                                             </tr>
                                             <tr>
                                                 <th>Discount {{ Session('coupon')['code'] }}</th>
-                                                <td class="text-right">-${{ Session('discounts')['discount'] }}</td>
+                                                <td class="text-right">- {{ Session('discounts')['discount'] }} EGP</td>
                                             </tr>
                                             <tr>
                                                 <th>Subtotal After Discount</th>
-                                                <td class="text-right">${{ Session('discounts')['subtotal'] }}</td>
+                                                <td class="text-right">{{ Session('discounts')['subtotal'] }} EGP</td>
                                             </tr>
                                             <tr>
                                                 <th>SHIPPING</th>
-                                                <td class="text-right">Free</td>
+                                                <td class="text-right">50 EGP</td>
                                             </tr>
-                                            <tr>
-                                                <th>VAT</th>
-                                                <td class="text-right">${{ Session('discounts')['tax'] }}</td>
-                                            </tr>
+                                            
                                             <tr class="cart-total">
                                                 <th>Total</th>
-                                                <td class="text-right">${{ Session('discounts')['total'] }}</td>
+                                                <td class="text-right">{{ Session('discounts')['total'] +50}} EGP</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -221,26 +217,23 @@
                                         <tbody>
                                             <tr>
                                                 <th>SUBTOTAL</th>
-                                                <td class="text-right">${{ Cart::instance('cart')->subtotal() }}</td>
+                                                <td class="text-right">{{ Cart::instance('cart')->subtotal() }} EGP</td>
                                             </tr>
+                                            
                                             <tr>
                                                 <th>SHIPPING</th>
-                                                <td class="text-right">Free</td>
-                                            </tr>
-                                            <tr>
-                                                <th>VAT</th>
-                                                <td class="text-right">${{ Cart::instance('cart')->tax() }}</td>
+                                                <td class="text-right">50 EGP</td>
                                             </tr>
                                             <tr class="cart-total">
                                                 <th>TOTAL</th>
-                                                <td class="text-right">${{ Cart::instance('cart')->total() }}</td>
+                                                <td class="text-right">{{ Cart::instance('cart')->total() +50 }} EGP</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 @endif
                             </div>
                             <div class="checkout__payment-methods">
-                                <div class="form-check">
+                                {{-- <div class="form-check">
                                     <input class="form-check-input form-check-input_fill" type="radio" name="mode"
                                         value="card">
                                     <label class="form-check-label" for="mode1" id="mode1">
@@ -253,7 +246,7 @@
                                     <label class="form-check-label" for="mode2"id="mode2">
                                         Paypal
                                     </label>
-                                </div>
+                                </div> --}}
                                 <div class="form-check">
                                     <input class="form-check-input form-check-input_fill" type="radio" name="mode"
                                         value="cod" checked>

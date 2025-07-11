@@ -12,31 +12,20 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes(['verify'=>true]);
+Auth::routes(['verify' => true]);
 // Public routes
 
 //         Shop route
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
+Route::get('/shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
 
 
-//         Cart route
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
-Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
-Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
-Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
-Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
+//          Contact
 
-//         Check-Out
-Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/place-order', [CartController::class, 'place_order'])->name('cart.place_order');
-Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.confirmation');
+Route::get('/contact-us',[HomeController::class, 'contact'])->name('contacts');
+Route::post('/contact-us/store',[HomeController::class, 'contact_store'])->name('contact.store');
 
-//           Coupons
-Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name('cart.coupon.apply');
-Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name('cart.coupon.remove');
 
 //          Wishlist route
 Route::post('/wishlist/add', [WhishListController::class, 'add'])->name('wishlist.add');
@@ -86,24 +75,48 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.order.index');
     Route::get('/admin/order/{order_id}/details', [AdminController::class, 'order_details'])->name('admin.order.show');
     Route::put('/admin/order/update-status', [AdminController::class, 'update_order_status'])->name('admin.order.status.update');
-    
+
     // Main-slide
-    Route::get('/admin/slides',[AdminController::class,'slides'])->name('admin.slides.index');
-    Route::get('/admin/slides/create',[AdminController::class, 'slide_add'])->name('admin.slides.create');
+    Route::get('/admin/slides', [AdminController::class, 'slides'])->name('admin.slides.index');
+    Route::get('/admin/slides/create', [AdminController::class, 'slide_add'])->name('admin.slides.create');
     Route::post('/admin/slides/store', [AdminController::class, 'slide_store'])->name('admin.slides.store');
     Route::get('/admin/slides/edit/{id}', [AdminController::class, 'slide_edit'])->name('admin.slides.edit');
-    Route::put('/admin/slides/update',[AdminController::class, 'slide_update'])->name('admin.slides.update');
+    Route::put('/admin/slides/update', [AdminController::class, 'slide_update'])->name('admin.slides.update');
     Route::delete('/admin/slides/{id}', [AdminController::class, 'slide_destroy'])->name('admin.slides.destroy');
+
+    //  Contact
+    Route::get('/admin/contacts',[AdminController::class, 'contact'])->name('admin.contacts');
+    Route::delete('/admin/contacts/{id}', [AdminController::class, 'destroyContact'])->name('admin.contacts.destroy');
 
 });
 
 
-// User routes
-Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+///////////////////////////////////////////////////////////////////////
+ Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/account-orders/{order_id}/details', [UserController::class, 'account_order_details'])->name('user.order.details');
     Route::put('/account-order/cancel-order', [UserController::class, 'account_cancel_order'])->name('user.account_cancel_order');
-     Route::get('/account-details', [UserController::class, 'edit'])->name('account.edit');
+    Route::get('/account-details', [UserController::class, 'edit'])->name('account.edit');
     Route::post('/account-details/update', [UserController::class, 'update'])->name('account.update');
+// User routes
+Route::middleware(['auth', 'verified'])->group(function () {
+   
+
+
+    //         Cart route
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+    Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
+    Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
+    Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
+
+    //         Check-Out
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/place-order', [CartController::class, 'place_order'])->name('cart.place_order');
+    Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.confirmation');
+
+    //           Coupons
+    Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name('cart.coupon.apply');
+    Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name('cart.coupon.remove');
 });

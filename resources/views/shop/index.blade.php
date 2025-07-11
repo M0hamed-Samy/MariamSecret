@@ -147,11 +147,34 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
+                                            Discover <br /><strong>Radiant Skin</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Indulge in the art
+                                            of self-care with our luxurious skincare essentials. From age-defying serums to
+                                            nourishing creams, every product is crafted to reveal your natural glow.</h6>
+                                    </div>
+                                </div>
+                                <div class="slide-split_media position-relative">
+                                    <div class="slideshow-bg" style="background-color: #f5e6e0;">
+                                        <img loading="lazy" src="assets/images/shop/shop_banner1.jpg" width="630"
+                                            height="450" alt="Women's accessories"
+                                            class="slideshow-bg__img object-fit-cover" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
+                                <div class="slide-split_text position-relative d-flex align-items-center"
+                                    style="background-color: #f5e6e0;">
+                                    <div class="slideshow-text container p-3 p-xl-5">
+                                        <h2
+                                            class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
+                                            Love Your<br /><strong>Lips</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> Accessories are
+                                            the perfect finishing touch to elevate your everyday look. Whether you're adding
+                                            a bold statement piece or a subtle hint of shimmer, the right accessory can
+                                            transform your style effortlessly. </h6>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -171,40 +194,16 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
+                                            Crown Your <br /><strong>Confidence</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> Let your hair
+                                            shine with strength and beauty. Our rich formulas revitalize every strand —
+                                            whether you’re chasing silky smoothness, volume, or deep repair. Because
+                                            gorgeous hair isn’t a luxury — it’s a lifestyle.</h6>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
-                                            height="450" alt="Women's accessories"
-                                            class="slideshow-bg__img object-fit-cover" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
-                                <div class="slide-split_text position-relative d-flex align-items-center"
-                                    style="background-color: #f5e6e0;">
-                                    <div class="slideshow-text container p-3 p-xl-5">
-                                        <h2
-                                            class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
-                                    </div>
-                                </div>
-                                <div class="slide-split_media position-relative">
-                                    <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
+                                        <img loading="lazy" src="assets/images/shop/shop_banner2.jpg" width="630"
                                             height="450" alt="Women's accessories"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
@@ -345,7 +344,7 @@
                                             @if ($product->sale_price && $product->sale_price != $product->regular_price)
                                                 <s>{{ $product->regular_price }} LE</s> {{ $product->sale_price }} LE
                                             @else
-                                                {{ $product->regular_price }} LE 
+                                                {{ $product->regular_price }} LE
                                             @endif
                                         </span>
                                     </div>
@@ -375,18 +374,19 @@
                                         <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                                     </div>
                                     @if (Cart::instance('wishlist')->content()->Where('id', $product->id)->count() > 0)
-                                    <form method="POST" action="{{ route('wishlist.remove',['rowId'=>Cart::instance('wishlist')->content()->Where('id', $product->id)->first()->rowId]) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
-                                            title="Remove from Wishlist">
-                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <use href="#icon_heart" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                        <form method="POST"
+                                            action="{{ route('wishlist.remove', ['rowId' => Cart::instance('wishlist')->content()->Where('id', $product->id)->first()->rowId]) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
+                                                title="Remove from Wishlist">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     @else
                                         <form method="POST" action="{{ route('wishlist.add') }}">
                                             @csrf

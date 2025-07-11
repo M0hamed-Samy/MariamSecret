@@ -50,11 +50,11 @@
                     </div>
                     <div class="order-info__item">
                         <label>Total</label>
-                        <span>{{ $order->total }} LE</span>
+                        <span>{{ $order->total }} EGP</span>
                     </div>
                     <div class="order-info__item">
                         <label>Paymetn Method</label>
-                        <span>{{ $order->transaction->mode }}</span>
+                        <span>Cash on Delivery</span>
                     </div>
                 </div>
                 <div class="checkout__totals-wrapper">
@@ -74,7 +74,7 @@
                                             {{ $item->product->name }} x {{ $item->quantity }}
                                         </td>
                                         <td class="text-right">
-                                            {{ $item->price }}
+                                            {{ $item->price }} EGP
                                         </td>
                                     </tr>
                                 @endforeach
@@ -84,23 +84,20 @@
                             <tbody>
                                 <tr>
                                     <th>SUBTOTAL</th>
-                                    <td class="text-right">{{ $order->subtotal }} LE</td>
+                                    <td class="text-right">{{ $order->subtotal }} EGP</td>
                                 </tr>
                                 <tr>
                                     <th>DISCOUNT</th>
-                                    <td class="text-right">{{ $order->discount }} LE</td>
+                                    <td class="text-right">{{ $order->discount }} EGP</td>
                                 </tr>
                                 <tr>
                                     <th>SHIPPING</th>
-                                    <td class="text-right">Free shipping</td>
+                                    <td class="text-right">50 EGP</td>
                                 </tr>
-                                <tr>
-                                    <th>VAT</th>
-                                    <td class="text-right">{{ $order->tax }} LE</td>
-                                </tr>
+                               
                                 <tr>
                                     <th>TOTAL</th>
-                                    <td class="text-right">{{ $order->total }} LE</td>
+                                    <td class="text-right">{{ $order->total +50}} EGP </td>
                                 </tr>
                             </tbody>
                         </table>

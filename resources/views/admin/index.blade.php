@@ -223,9 +223,9 @@
                                             <td class="text-center">{{ $order->id }}</td>
                                             <td class="text-center">{{ $order->name }}</td>
                                             <td class="text-center">{{ $order->phone }}</td>
-                                            <td class="text-center">{{ $order->subtotal }}LE</td>
-                                            <td class="text-center">{{ $order->tax }} LE</td>
-                                            <td class="text-center">{{ $order->total }} LE</td>
+                                            <td class="text-center">{{ $order->subtotal }} EGP</td>
+                                            <td class="text-center">{{ $order->tax }} EGP</td>
+                                            <td class="text-center">{{ $order->total }} EGP</td>
 
                                             <td>
                                                 @if ($order->status == 'delivered')
