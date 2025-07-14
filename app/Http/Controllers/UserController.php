@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Transaction;
@@ -81,4 +83,6 @@ class UserController extends Controller
         $order->save();
         return back()->with("status", "Order has been cancelled successfully!");
     }
+
+   
 }

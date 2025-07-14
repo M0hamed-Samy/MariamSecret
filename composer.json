@@ -11,6 +11,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "mcamara/laravel-localization": "^2.3",
         "surfsidemedia/shoppingcart": "^2.0"
     },
     "require-dev": {

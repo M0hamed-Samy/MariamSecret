@@ -78,7 +78,7 @@
                                 <a href="{{ $link }}"
                                     class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7"
                                     target="_blank" rel="noopener noreferrer">
-                                    Shop Now
+                                    {{ __('messages.order_now') }}
                                 </a>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
         <div class="container mw-1620 bg-white border-radius-10">
             <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
             <section class="category-carousel container">
-                <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">You Might Like</h2>
+                <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">{{ __('shop.you_might_like') }}</h2>
 
                 <div class="position-relative">
                     <div class="swiper-container js-swiper-slider"
@@ -177,14 +177,14 @@
             <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
             <section class="hot-deals container">
-                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">Hot Deals</h2>
+                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">{{ __('shop.hot_deals') }}</h2>
                 <div class="row">
                     <div
                         class="col-md-6 col-lg-4 col-xl-20per d-flex align-items-center flex-column justify-content-center py-4 align-items-md-start">
-                        <h2>Summer Sale</h2>
-                        <h2 class="fw-bold">Up to 25% Off</h2>
+                        <h2>{{ __('shop.summer_sale') }}</h2>
+                        <h2 class="fw-bold">{{ __('shop.offer') }}</h2>
 
-                        <div class="position-relative d-flex align-items-center text-center pt-xxl-4 js-countdown mb-3"
+                        {{-- <div class="position-relative d-flex align-items-center text-center pt-xxl-4 js-countdown mb-3"
                             data-date="18-3-2024" data-time="06:50">
                             <div class="day countdown-unit">
                                 <span class="countdown-num d-block"></span>
@@ -205,10 +205,10 @@
                                 <span class="countdown-num d-block"></span>
                                 <span class="countdown-word text-uppercase text-secondary">Sec</span>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <a href="{{ route('shop.index') }}"
-                            class="btn-link default-underline text-uppercase fw-medium mt-3">View All</a>
+                            class="btn-link default-underline text-uppercase fw-medium mt-3">{{__('shop.view')}}</a>
                     </div>
                     <div class="col-md-6 col-lg-8 col-xl-80per">
                         <div class="position-relative">
@@ -270,10 +270,10 @@
                                                 <div class="product-card__price d-flex">
                                                     <span class="money price text-secondary">
                                                         @if ($product->sale_price && $product->sale_price != $product->regular_price)
-                                                            <s>{{ $product->regular_price }} LE</s>&nbsp;
-                                                            {{ $product->sale_price }} LE
+                                                            <s>{{ $product->regular_price }} EGP</s>&nbsp;
+                                                            {{ $product->sale_price }} EGP
                                                         @else
-                                                            {{ $product->regular_price }} LE
+                                                            {{ $product->regular_price }} EGP
                                                         @endif
                                                     </span>
                                                 </div>
@@ -299,8 +299,8 @@
 
                                                         <button type="submit"
                                                             class="btn-link btn-link_lg me-4 text-uppercase fw-medium js-add-cart"
-                                                            title="Add To Cart">
-                                                            Add To Cart
+                                                            title="{{__('shop.add_cart')}}">
+                                                            {{__('shop.add_cart')}}
                                                         </button>
                                                     </form>
                                                 @endif
@@ -380,8 +380,7 @@
                                 <div class="category-banner__item-content">
                                     <h3 class="mb-0">{{ $product->name }}</h3>
                                     <a href="{{ route('shop.show-details', ['product_slug' => $product->slug]) }}"
-                                        class="btn-link default-underline text-uppercase fw-medium">Shop
-                                        Now</a>
+                                        class="btn-link default-underline text-uppercase fw-medium">{{ __('messages.order_now') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -393,7 +392,7 @@
             <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
 
             <section class="products-grid container">
-                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">Featured Products</h2>
+                <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">{{ __('shop.featured_products') }}</h2>
 
                 <div class="row">
                     @foreach ($featured_products as $product)
@@ -413,10 +412,10 @@
                                     <div class="product-card__price d-flex align-items-center">
                                         <span class="money price text-secondary">
                                             @if ($product->sale_price && $product->sale_price != $product->regular_price)
-                                                <s>{{ $product->regular_price }} LE</s>&nbsp;
-                                                {{ $product->sale_price }} LE
+                                                <s>{{ $product->regular_price }} EGP</s>&nbsp;
+                                                {{ $product->sale_price }} EGP
                                             @else
-                                                {{ $product->regular_price }} LE
+                                                {{ $product->regular_price }} EGP
                                             @endif
                                         </span>
                                     </div>
@@ -432,8 +431,7 @@
 
                 <div class="text-center mt-2">
                     <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium"
-                        href="{{ route('shop.index') }}">Load
-                        More</a>
+                        href="{{ route('shop.index') }}">{{__("shop.load")}}</a>
                 </div>
             </section>
         </div>

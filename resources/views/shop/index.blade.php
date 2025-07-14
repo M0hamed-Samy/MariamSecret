@@ -35,7 +35,7 @@
         <section class="shop-main container d-flex pt-4 pt-xl-5">
             <div class="shop-sidebar side-sticky bg-body" id="shopFilter">
                 <div class="aside-header d-flex d-lg-none align-items-center">
-                    <h3 class="text-uppercase fs-6 mb-0">Filter By</h3>
+                    <h3 class="text-uppercase fs-6 mb-0">{{__('shop.filterby')}}</h3>
                     <button class="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
                 </div>
 
@@ -44,10 +44,10 @@
                 <div class="accordion" id="categories-list">
                     <div class="accordion-item mb-4 pb-3">
                         <h5 class="accordion-header" id="accordion-heading-1">
-                            <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
+                            <button class="accordion-button p-0 border-0 fs-5 text-uppercase " type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-1" aria-expanded="true"
                                 aria-controls="accordion-filter-1">
-                                Product Categories
+                                {{__('shop.product_category')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -86,7 +86,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="true"
                                 aria-controls="accordion-filter-brand">
-                                Brands
+                                {{__('messages.brand')}}
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -155,8 +155,8 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner1.jpg" width="630"
-                                            height="450" alt="Women's accessories"
+                                        <img loading="lazy" src="{{ asset('assets/images/shop/shop_banner1.jpg') }}"
+                                            width="630" height="450" alt="Women's accessories"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
+                                        <img loading="lazy" src='{{ asset('assets/images/shop/shop_banner3.jpg') }}' width="630"
                                             height="450" alt="Women's accessories"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
@@ -203,7 +203,7 @@
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner2.jpg" width="630"
+                                        <img loading="lazy" src="{{ asset('assets/images/shop/shop_banner2.jpg') }}" width="630"
                                             height="450" alt="Women's accessories"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
@@ -225,10 +225,9 @@
                 <div class="d-flex justify-content-between mb-4 pb-md-2">
                     <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
                         <a href="{{ route('home.index') }}"
-                            class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">{{__('messages.home')}}</a>
                         <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                        <a href="{{ route('shop.index') }}" class="menu-link menu-link_us-s text-uppercase fw-medium">The
-                            Shop</a>
+                        <a href="{{ route('shop.index') }}" class="menu-link menu-link_us-s text-uppercase fw-medium">{{__('messages.shop')}}</a>
                     </div>
 
                     <div
@@ -240,27 +239,16 @@
                             <option value="48" {{ $size == '48' ? 'selected' : '' }}>48</option>
                             <option value="102" {{ $size == '102' ? 'selected' : '' }}>102</option>
                         </select> --}}
-
-                        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
-                            aria-label="Sort Items" id="orderby" name="orderby">
-                            <option value="-1" {{ $order == -1 ? 'selected' : '' }}>Default Sorting</option>
-                            <option value="1" {{ $order == 1 ? 'selected' : '' }}>New To Old</option>
-                            <option value="2" {{ $order == 2 ? 'selected' : '' }}>Old To New</option>
-                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>Low To High</option>
-                            <option value="4" {{ $order == 4 ? 'selected' : '' }}>High To Low</option>
+                       <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
+                        aria-label="{{ __('shop.sort_items') }}" id="orderby" name="orderby">
+                            <option value="-1" {{ $order == -1 ? 'selected' : '' }}>{{ __('shop.default_sorting') }}</option>
+                            <option value="1" {{ $order == 1 ? 'selected' : '' }}>{{ __('shop.new_to_old') }}</option>
+                            <option value="2" {{ $order == 2 ? 'selected' : '' }}>{{ __('shop.old_to_new') }}</option>
+                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>{{ __('shop.low_to_high') }}</option>
+                            <option value="4" {{ $order == 4 ? 'selected' : '' }}>{{ __('shop.high_to_low') }}</option>
                         </select>
 
-                        <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
-
-                        <div class="col-size align-items-center order-1 d-none d-lg-flex">
-                            <span class="text-uppercase fw-medium me-2">View</span>
-                            <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid"
-                                data-cols="2">2</button>
-                            <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid"
-                                data-cols="3">3</button>
-                            <button class="btn-link fw-medium js-cols-size" data-target="products-grid"
-                                data-cols="4">4</button>
-                        </div>
+                        
 
                         <div class="shop-filter d-flex align-items-center order-0 order-md-3 d-lg-none">
                             <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
@@ -269,7 +257,7 @@
                                     viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <use href="#icon_filter" />
                                 </svg>
-                                <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
+                                <span class="text-uppercase fw-medium d-inline-block align-middle">{{__('shop.filter')}}</span>
                             </button>
                         </div>
                     </div>
@@ -315,8 +303,7 @@
 
                                     @if (Cart::instance('cart')->content()->Where('id', $product->id)->count() > 0)
                                         <a href="{{ route('cart.index') }}"
-                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart btn-warning">Go
-                                            to Cart</a>
+                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart btn-warning">{{__('shop.go_cart')}}</a>
                                     @else
                                         <form name="addtocart-form" method="POST" action="{{ route('cart.store') }}">
                                             @csrf
@@ -327,8 +314,7 @@
                                                 <input type="hidden" name="price"
                                                     value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" />
                                                 <button type="submit"
-                                                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart">Add
-                                                    to Cart</button>
+                                                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart">{{__('shop.add_cart')}}</button>
                                             </div>
                                         </form>
                                     @endif

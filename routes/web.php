@@ -9,30 +9,75 @@ use App\Http\Controllers\WhishListController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [
+            'localeSessionRedirect',
+            'localizationRedirect',
+            'localeViewPath'
+        ],
+    ],
+    function () {
+
+    Auth::routes(['verify' => true]);
+    // Public routes
+
+    //         Shop route
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+    Route::get('/shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
+
+
+    //          Contact
+
+    Route::get('/contact-us', [HomeController::class, 'contact'])->name('contacts');
+    Route::post('/contact-us/store', [HomeController::class, 'contact_store'])->name('contact.store');
+
+
+    //          Wishlist route
+    Route::post('/wishlist/add', [WhishListController::class, 'add'])->name('wishlist.add');
+    Route::get('/wishlist', [WhishListController::class, 'index'])->name('wishlist.index');
+    Route::delete('/wishlist/remove/{rowId}', [WhishListController::class, 'remove_item_from_wishlist'])->name('wishlist.remove');
+    Route::delete('/wishlist/clear', [WhishListController::class, 'empty_wishlist'])->name('wishlist.empty');
+    Route::post('/wishlist/move-to-cart/{rowId}', [WhishListController::class, 'move_to_cart'])->name('wishlist.move');
 
 
 
-Auth::routes(['verify' => true]);
-// Public routes
-
-//         Shop route
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop/{product_slug}', [ShopController::class, 'showProductDetails'])->name('shop.show-details');
 
 
-//          Contact
 
-Route::get('/contact-us',[HomeController::class, 'contact'])->name('contacts');
-Route::post('/contact-us/store',[HomeController::class, 'contact_store'])->name('contact.store');
+    ///////////////////////////////////////////////////////////////////////
+    Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('/account-orders/{order_id}/details', [UserController::class, 'account_order_details'])->name('user.order.details');
+    Route::put('/account-order/cancel-order', [UserController::class, 'account_cancel_order'])->name('user.account_cancel_order');
+    Route::get('/account-details', [UserController::class, 'edit'])->name('account.edit');
+    Route::post('/account-details/update', [UserController::class, 'update'])->name('account.update');
+    // User routes
+    Route::middleware(['auth', 'verified'])->group(function () {
 
 
-//          Wishlist route
-Route::post('/wishlist/add', [WhishListController::class, 'add'])->name('wishlist.add');
-Route::get('/wishlist', [WhishListController::class, 'index'])->name('wishlist.index');
-Route::delete('/wishlist/remove/{rowId}', [WhishListController::class, 'remove_item_from_wishlist'])->name('wishlist.remove');
-Route::delete('/wishlist/clear', [WhishListController::class, 'empty_wishlist'])->name('wishlist.empty');
-Route::post('/wishlist/move-to-cart/{rowId}', [WhishListController::class, 'move_to_cart'])->name('wishlist.move');
+
+        //         Cart route
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+        Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
+        Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
+        Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
+        Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
+
+        //         Check-Out
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+        Route::post('/place-order', [CartController::class, 'place_order'])->name('cart.place_order');
+        Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.confirmation');
+
+        //           Coupons
+        Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name('cart.coupon.apply');
+        Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name('cart.coupon.remove');
+    });
+});
 
 
 
@@ -85,38 +130,6 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/slides/{id}', [AdminController::class, 'slide_destroy'])->name('admin.slides.destroy');
 
     //  Contact
-    Route::get('/admin/contacts',[AdminController::class, 'contact'])->name('admin.contacts');
+    Route::get('/admin/contacts', [AdminController::class, 'contact'])->name('admin.contacts');
     Route::delete('/admin/contacts/{id}', [AdminController::class, 'destroyContact'])->name('admin.contacts.destroy');
-
-});
-
-
-///////////////////////////////////////////////////////////////////////
- Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
-    Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
-    Route::get('/account-orders/{order_id}/details', [UserController::class, 'account_order_details'])->name('user.order.details');
-    Route::put('/account-order/cancel-order', [UserController::class, 'account_cancel_order'])->name('user.account_cancel_order');
-    Route::get('/account-details', [UserController::class, 'edit'])->name('account.edit');
-    Route::post('/account-details/update', [UserController::class, 'update'])->name('account.update');
-// User routes
-Route::middleware(['auth', 'verified'])->group(function () {
-   
-
-
-    //         Cart route
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
-    Route::put('/cart/increase-qunatity/{rowId}', [CartController::class, 'increase_item_quantity'])->name('cart.increase.qty');
-    Route::put('/cart/reduce-qunatity/{rowId}', [CartController::class, 'reduce_item_quantity'])->name('cart.reduce.qty');
-    Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item_from_cart'])->name('cart.remove');
-    Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
-
-    //         Check-Out
-    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-    Route::post('/place-order', [CartController::class, 'place_order'])->name('cart.place_order');
-    Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.confirmation');
-
-    //           Coupons
-    Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name('cart.coupon.apply');
-    Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name('cart.coupon.remove');
 });

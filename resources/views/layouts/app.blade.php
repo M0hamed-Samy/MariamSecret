@@ -28,9 +28,10 @@
                <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
                <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css" />
                <link rel="stylesheet"
-                   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+                   href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')}}"
                    integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
                    crossorigin="anonymous" referrerpolicy="no-referrer">
+                <link href="{{asset('https://fonts.googleapis.com/css2?family=Cairo&family=Tajawal&display=swap')}}" rel="stylesheet">
 
                @stack('styles')
 
@@ -330,24 +331,66 @@
                        <div class="container">
                            <div class="overflow-hidden">
                                <ul class="navigation__list list-unstyled position-relative">
+
                                    <li class="navigation__item">
-                                       <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
+                                       <a href="{{ route('home.index') }}"
+                                           class="navigation__link">{{ __('messages.home') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
+                                       <a href="{{ route('shop.index') }}"
+                                           class="navigation__link">{{ __('messages.shop') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('cart.index') }}" class="navigation__link">Cart</a>
+                                       <a href="{{ route('cart.index') }}"
+                                           class="navigation__link">{{ __('messages.cart') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="about.html" class="navigation__link">About</a>
+                                       <a href="#" class="navigation__link">{{ __('messages.about_us') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('contacts') }}" class="navigation__link">Contact</a>
+                                       <a href="{{ route('contacts') }}"
+                                           class="navigation__link">{{ __('messages.contact_us') }}</a>
                                    </li>
+                                   <li class="navigation__item">
+                                       <div class="navigation__link" style="cursor: pointer;"
+                                           onclick="toggleSidebarLang()">
+                                            {{ __('messages.language') }}
+                                       </div>
+                                       <ul id="sidebarLangDropdown"
+                                           style="
+        display: none;
+        margin-top: 5px;
+        padding: 8px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        list-style: none;
+        width: 160px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    ">
+                                           <li style="margin-bottom: 10px;">
+                                               <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}"
+                                                   class="d-flex align-items-center text-dark text-decoration-none">
+                                                   <img src="{{ asset('assets/images/arabic.png') }}" width="20"
+                                                       height="20" style="margin-right: 8px;">
+                                                   العربية
+                                               </a>
+                                           </li>
+                                           <li>
+                                               <a href="{{ LaravelLocalization::getLocalizedURL('en') }}"
+                                                   class="d-flex align-items-center text-dark text-decoration-none">
+                                                   <img src="{{ asset('assets/images/english.png') }}" width="20"
+                                                       height="20" style="margin-right: 8px;">
+                                                   English
+                                               </a>
+                                           </li>
+                                       </ul>
+                                   </li>
+
                                </ul>
                            </div>
                        </div>
+
 
                        <div class="border-top mt-auto pb-2">
                            <a href="{{ route('user.index') }}" class="text-decoration-none text-dark">
@@ -356,8 +399,7 @@
                                        viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                        <use href="#icon_user" />
                                    </svg>
-                                   <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My
-                                       Account</span>
+                                   <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">{{ __('messages.my_account') }}</span>
                                </div>
                            </a>
 
@@ -366,7 +408,8 @@
 
                            <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
                                <li>
-                                   <a href="https://www.facebook.com/mariam.secret1/" class="footer__social-link d-block ps-0">
+                                   <a href="https://www.facebook.com/mariam.secret1/"
+                                       class="footer__social-link d-block ps-0">
                                        <svg class="svg-icon svg-icon_facebook" width="9" height="15"
                                            viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg">
                                            <use href="#icon_facebook" />
@@ -382,7 +425,8 @@
                                    </a>
                                </li>
                                <li>
-                                   <a href="https://www.instagram.com/mariam.secrets/?hl=en" class="footer__social-link d-block">
+                                   <a href="https://www.instagram.com/mariam.secrets/?hl=en"
+                                       class="footer__social-link d-block">
                                        <svg class="svg-icon svg-icon_instagram" width="14" height="13"
                                            viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
                                            <use href="#icon_instagram" />
@@ -425,19 +469,24 @@
                            <nav class="navigation">
                                <ul class="navigation__list list-unstyled d-flex">
                                    <li class="navigation__item">
-                                       <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
+                                       <a href="{{ route('home.index') }}"
+                                           class="navigation__link">{{ __('messages.home') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('shop.index') }}" class="navigation__link">Shop</a>
+                                       <a href="{{ route('shop.index') }}"
+                                           class="navigation__link">{{ __('messages.shop') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('cart.index') }}" class="navigation__link">Cart</a>
+                                       <a href="{{ route('cart.index') }}"
+                                           class="navigation__link">{{ __('messages.cart') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="about.html" class="navigation__link">About</a>
+                                       <a href="about.html"
+                                           class="navigation__link">{{ __('messages.about_us') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="{{ route('contacts') }}" class="navigation__link">Contact</a>
+                                       <a href="{{ route('contacts') }}"
+                                           class="navigation__link">{{ __('messages.contact_us') }}</a>
                                    </li>
                                </ul>
                            </nav>
@@ -518,6 +567,48 @@
                                        </a>
                                    </div>
                                @endguest
+                               <div class="header-tools__item header-tools__language"
+                                   style="position: relative; display: inline-block;">
+                                   {{-- Language Icon (Trigger) --}}
+                                   <img src="{{ asset('assets/images/language.png') }}" alt="Language"
+                                       width="24" height="24" id="languageToggle" style="cursor: pointer;">
+
+                                   {{-- Dropdown Menu --}}
+                                   <ul id="languageDropdown"
+                                       style="
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 10px;
+        list-style: none;
+        margin: 0;
+        z-index: 999;
+        width: 160px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    ">
+                                       <li style="margin-bottom: 10px;">
+                                           <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}"
+                                               style="display: flex; align-items: center; text-decoration: none; color: #333;">
+                                               <img src="{{ asset('assets/images/arabic.png') }}" alt="Arabic"
+                                                   width="20" height="20" style="margin-right: 8px;">
+                                               العربية
+                                           </a>
+                                       </li>
+                                       <li>
+                                           <a href="{{ LaravelLocalization::getLocalizedURL('en') }}"
+                                               style="display: flex; align-items: center; text-decoration: none; color: #333;">
+                                               <img src="{{ asset('assets/images/english.png') }}" alt="English"
+                                                   width="20" height="20" style="margin-right: 8px;">
+                                               English
+                                           </a>
+                                       </li>
+                                   </ul>
+                               </div>
+
 
                                <a href="{{ route('wishlist.index') }}" class="header-tools__item header-tools__cart">
                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -560,12 +651,13 @@
                                            class="logo__image d-block" />
                                    </a>
                                </div>
-                               <p class="m-0"><strong class="fw-medium">contact@mariamsecrets.in</strong></p>
+                               <p class="m-0"><strong class="fw-medium">mariamsecret10@gmail.com</strong></p>
                                <p><strong class="fw-medium">+1 000-000-0000</strong></p>
 
                                <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                                    <li>
-                                       <a href="https://www.facebook.com/mariam.secret1/" class="footer__social-link d-block">
+                                       <a href="https://www.facebook.com/mariam.secret1/"
+                                           class="footer__social-link d-block">
                                            <svg class="svg-icon svg-icon_facebook" width="9" height="15"
                                                viewBox="0 0 9 15" xmlns="http://www.w3.org/2000/svg">
                                                <use href="#icon_facebook" />
@@ -581,7 +673,8 @@
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="https://www.instagram.com/mariam.secrets/?hl=en" class="footer__social-link d-block">
+                                       <a href="https://www.instagram.com/mariam.secrets/?hl=en"
+                                           class="footer__social-link d-block">
                                            <svg class="svg-icon svg-icon_instagram" width="14" height="13"
                                                viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
                                                <use href="#icon_instagram" />
@@ -608,82 +701,55 @@
                                </ul>
                            </div>
 
-                           <div class="footer-column footer-menu mb-4 mb-lg-0">
-                               <h6 class="sub-menu__title text-uppercase">Company</h6>
+                           <div class="footer-column footer-menu mb-6 mb-lg-0">
+                               <h6 class="sub-menu__title text-uppercase">{{ __('messages.company') }}</h6>
                                <ul class="sub-menu__list list-unstyled">
                                    <li class="sub-menu__item"><a href="about-2.html"
-                                           class="menu-link menu-link_us-s">About
-                                           Us</a></li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Careers</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Affiliates</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="blog_list1.html"
-                                           class="menu-link menu-link_us-s">Blog</a></li>
+                                           class="menu-link menu-link_us-s">{{ __('messages.about_us') }}
+                                       </a></li>
+
+                                   
                                    <li class="sub-menu__item"><a href="{{ route('contacts') }}"
-                                           class="menu-link menu-link_us-s">Contact
-                                           Us</a></li>
+                                           class="menu-link menu-link_us-s">{{ __('messages.contact_us') }}</a></li>
                                </ul>
                            </div>
-
-                           <div class="footer-column footer-menu mb-4 mb-lg-0">
-                               <h6 class="sub-menu__title text-uppercase">Shop</h6>
+                           <div class="footer-column footer-menu mb-6 mb-lg-0">
+                               <h6 class="sub-menu__title text-uppercase">{{ __('messages.brand') }}</h6>
                                <ul class="sub-menu__list list-unstyled">
-                                   <li class="sub-menu__item"><a href="shop2.html"
-                                           class="menu-link menu-link_us-s">New
-                                           Arrivals</a></li>
-                                   <li class="sub-menu__item"><a href="shop3.html"
-                                           class="menu-link menu-link_us-s">Accessories</a></li>
-                                   <li class="sub-menu__item"><a href="shop4.html"
-                                           class="menu-link menu-link_us-s">Men</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="shop5.html"
-                                           class="menu-link menu-link_us-s">Women</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="shop1.html"
+                                   @foreach ($brands as $brand)
+                                       <li class="sub-menu__item">
+                                           <a href="{{ route('shop.index', ['brands' => $brand->id]) }}"
+                                               class="menu-link menu-link_us-s">
+                                               {{ $brand->name }}
+                                           </a>
+                                       </li>
+                                   @endforeach
+
+
+
+                                   <li class="sub-menu__item"><a href="{{ route('shop.index') }}"
                                            class="menu-link menu-link_us-s">Shop
-                                           All</a></li>
+                                           All</a>
+                                   </li>
                                </ul>
                            </div>
 
-                           <div class="footer-column footer-menu mb-4 mb-lg-0">
-                               <h6 class="sub-menu__title text-uppercase">Help</h6>
+                           <div class="footer-column footer-menu mb-6 mb-lg-0">
+                               <h6 class="sub-menu__title text-uppercase">{{ __('messages.categories') }}</h6>
                                <ul class="sub-menu__list list-unstyled">
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Customer
-                                           Service</a></li>
-                                   <li class="sub-menu__item"><a href="account_dashboard.html"
-                                           class="menu-link menu-link_us-s">My Account</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="store_location.html"
-                                           class="menu-link menu-link_us-s">Find a Store</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Legal &
-                                           Privacy</a></li>
-                                   <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Gift
-                                           Card</a></li>
-                               </ul>
-                           </div>
+                                   @foreach ($categories as $category)
+                                       <li class="sub-menu__item">
+                                           <a href="{{ route('shop.index', ['categories' => $category->id]) }}"
+                                               class="menu-link menu-link_us-s">
+                                               {{ $category->name }}
+                                           </a>
+                                       </li>
+                                   @endforeach
 
-                           <div class="footer-column footer-menu mb-4 mb-lg-0">
-                               <h6 class="sub-menu__title text-uppercase">Categories</h6>
-                               <ul class="sub-menu__list list-unstyled">
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Shirts</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Jeans</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Shoes</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#"
-                                           class="menu-link menu-link_us-s">Bags</a>
-                                   </li>
-                                   <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shop
+
+
+                                   <li class="sub-menu__item"><a href="{{ route('shop.index') }}"
+                                           class="menu-link menu-link_us-s">Shop
                                            All</a>
                                    </li>
                                </ul>
@@ -693,11 +759,11 @@
 
                    <div class="footer-bottom">
                        <div class="container d-md-flex align-items-center">
-                           <span class="footer-copyright me-auto">©2024 Surfside Media</span>
+                           <span class="footer-copyright me-auto">©2024 MariamSecret
+                               {{ __('messages.rights_reserved') }}</span>
                            <div class="footer-settings d-md-flex align-items-center">
-                               <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a
-                                   href="terms-conditions.html">Terms &amp;
-                                   Conditions</a>
+                               <a href="privacy-policy.html">{{ __('messages.privacy') }}</a> &nbsp;|&nbsp; <a
+                                   href="terms-conditions.html">{{ __('messages.terms') }}</a>
                            </div>
                        </div>
                    </div>
@@ -713,7 +779,7 @@
                                    fill="none" xmlns="http://www.w3.org/2000/svg">
                                    <use href="#icon_home" />
                                </svg>
-                               <span>Home</span>
+                               <span>{{ __('messages.home') }}</span>
                            </a>
                        </div>
 
@@ -724,7 +790,7 @@
                                    fill="none" xmlns="http://www.w3.org/2000/svg">
                                    <use href="#icon_hanger" />
                                </svg>
-                               <span>Shop</span>
+                               <span>{{ __('messages.shop') }}</span>
                            </a>
                        </div>
 
@@ -742,7 +808,7 @@
                                        </span>
                                    @endif
                                </div>
-                               <span>Wishlist</span>
+                               <span>{{ __('messages.wishlist') }}</span>
                            </a>
                        </div>
                    </div>
@@ -758,6 +824,31 @@
                <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
                <script src="{{ asset('assets/js/theme.js') }}"></script>
                @stack('scripts')
+               <script>
+                   const toggleBtn = document.getElementById('languageToggle');
+                   const dropdown = document.getElementById('languageDropdown');
+
+                   toggleBtn.addEventListener('click', function(event) {
+                       event.stopPropagation();
+                       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                   });
+
+                   // Close dropdown when clicking outside
+                   document.addEventListener('click', function() {
+                       dropdown.style.display = 'none';
+                   });
+
+                   // Prevent closing when clicking inside the dropdown
+                   dropdown.addEventListener('click', function(event) {
+                       event.stopPropagation();
+                   });
+               </script>
+               <script>
+                   function toggleSidebarLang() {
+                       const dropdown = document.getElementById('sidebarLangDropdown');
+                       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                   }
+               </script>
 
            </body>
 
