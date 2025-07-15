@@ -37,47 +37,47 @@
                         <input class="flex-grow" type="text" placeholder="Tagline" name="tagline" tabindex="0"
                             value="{{ old('tagline') }}" aria-required="true" required="">
                     </fieldset>
-                      @error('tagline')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
+                    @error('tagline')
+                        <span class="error alert-danger text-center">
+                            {{ $message }}
+                        </span>
+                    @enderror
                     <fieldset class="name">
                         <div class="body-title">Title <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Title" name="title" tabindex="0"
                             value="{{ old('title') }}" aria-required="true" required="">
                     </fieldset>
-                      @error('title')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
+                    @error('title')
+                        <span class="error alert-danger text-center">
+                            {{ $message }}
+                        </span>
+                    @enderror
                     <fieldset class="name">
                         <div class="body-title">Sub-Title <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="SubTitle" name="subtitle" tabindex="0"
                             value="{{ old('subtitle') }}" aria-required="true" required="">
                     </fieldset>
-                      @error('subitle')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
+                    @error('subtitle')
+                        <span class="error alert-danger text-center">
+                            {{ $message }}
+                        </span>
+                    @enderror
                     <fieldset class="name">
                         <div class="body-title">Link <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Link of the product" name="link"
                             tabindex="0" value="{{ old('link') }}" aria-required="true" required="">
                     </fieldset>
-                      @error('link')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
+                    @error('link')
+                        <span class="error alert-danger text-center">
+                            {{ $message }}
+                        </span>
+                    @enderror
                     <fieldset>
                         <div class="body-title">Upload images <span class="tf-color-1">*</span>
                         </div>
                         <div class="upload-image flex-grow">
                             <div class="item" id="imgpreview" style="display:none;">
-                                <img src="sample.jpg" class="effect8" alt=""/>
+                                <img src="sample.jpg" class="effect8" alt="" />
                             </div>
                             <div class="item up-load">
                                 <label class="uploadfile" for="myFile">
@@ -91,30 +91,33 @@
                             </div>
                         </div>
                     </fieldset>
-                      @error('image')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
-                    <fieldset class="category">
-                        <div class="body-title">Status</div>
-                        <div class="select flex-grow">
-                            <select class="" name="status">
-                                <option>Select status</option>
-                                <option value="1" @if (old('status') == '1')  @endif>Active</option>
-                                <option value="0" @if (old('status') == '0')  @endif>Inactive</option>
-                            </select>
-                        </div>
-                    </fieldset>
-                      @error('status')
-                            <span class="error alert-danger text-center">
-                                {{ $message }}
-                                <span>
-                                @enderror
-                    <div class="bot">
-                        <div></div>
-                        <button class="tf-button w208" type="submit">Save</button>
-                    </div>
+                    @error('image')
+                        <span class="error alert-danger text-center">
+                            {{ $message }}
+                        </span>
+                            @enderror
+                            <fieldset class="category">
+                                <div class="body-title">Status</div>
+                                <div class="select flex-grow">
+                                    <select class="" name="status">
+                                        <option>Select status</option>
+                                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </fieldset>
+                            @error('status')
+                                <span class="error alert-danger text-center">
+                                    {{ $message }}
+                                </span>
+                                    @enderror
+                                    <div class="bot">
+                                        <div></div>
+                                        <button class="tf-button w208" type="submit">Save</button>
+                                    </div>
                 </form>
             </div>
             <!-- /new-category -->
@@ -133,10 +136,8 @@
                     $("#imgpreview").show();
                 }
             });
-           
+
 
         });
-
-       
     </script>
 @endpush

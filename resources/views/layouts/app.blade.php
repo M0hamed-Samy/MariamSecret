@@ -481,7 +481,7 @@
                                            class="navigation__link">{{ __('messages.cart') }}</a>
                                    </li>
                                    <li class="navigation__item">
-                                       <a href="about.html"
+                                       <a href="{{ route('about') }}"
                                            class="navigation__link">{{ __('messages.about_us') }}</a>
                                    </li>
                                    <li class="navigation__item">
@@ -704,7 +704,7 @@
                            <div class="footer-column footer-menu mb-6 mb-lg-0">
                                <h6 class="sub-menu__title text-uppercase">{{ __('messages.company') }}</h6>
                                <ul class="sub-menu__list list-unstyled">
-                                   <li class="sub-menu__item"><a href="about-2.html"
+                                   <li class="sub-menu__item"><a href="{{route('about')}}"
                                            class="menu-link menu-link_us-s">{{ __('messages.about_us') }}
                                        </a></li>
 
@@ -728,8 +728,7 @@
 
 
                                    <li class="sub-menu__item"><a href="{{ route('shop.index') }}"
-                                           class="menu-link menu-link_us-s">Shop
-                                           All</a>
+                                           class="menu-link menu-link_us-s">{{ __('messages.shop') }}</a>
                                    </li>
                                </ul>
                            </div>
@@ -749,8 +748,7 @@
 
 
                                    <li class="sub-menu__item"><a href="{{ route('shop.index') }}"
-                                           class="menu-link menu-link_us-s">Shop
-                                           All</a>
+                                           class="menu-link menu-link_us-s">{{ __('messages.order_now') }}</a>
                                    </li>
                                </ul>
                            </div>
@@ -762,8 +760,8 @@
                            <span class="footer-copyright me-auto">©2024 MariamSecret
                                {{ __('messages.rights_reserved') }}</span>
                            <div class="footer-settings d-md-flex align-items-center">
-                               <a href="privacy-policy.html">{{ __('messages.privacy') }}</a> &nbsp;|&nbsp; <a
-                                   href="terms-conditions.html">{{ __('messages.terms') }}</a>
+                               <a href="{{ route('privacy') }}">{{ __('messages.privacy') }}</a> &nbsp;|&nbsp; <a
+                                   href="{{ route('terms') }}">{{ __('messages.terms') }}</a>
                            </div>
                        </div>
                    </div>

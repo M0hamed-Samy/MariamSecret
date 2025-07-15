@@ -84,5 +84,17 @@ class UserController extends Controller
         return back()->with("status", "Order has been cancelled successfully!");
     }
 
+     public function privacy()
+    {
+        return view('policy.privacy-policy');
+    }
+     public function terms()
+    {
+        return view('policy.terms-conditions');
+    }
+    public function about()
+    {
+        return view('about.about');
+    }
    
 }

@@ -610,7 +610,6 @@ class AdminController extends Controller
         $slide->subtitle = $request->subtitle;
         $slide->link = $request->link;
         $slide->status = $request->status;
-        $slide->tagline = $request->tagline;
         $image = $request->file('image');
         $file_extention = $request->file('image')->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extention;

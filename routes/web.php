@@ -24,6 +24,13 @@ Route::group(
     Auth::routes(['verify' => true]);
     // Public routes
 
+
+    // privacy and policy $ terms
+
+    Route::get('/terms-conditions',[UserController::class, 'terms'])->name('terms');
+    Route::get('/about-us',[UserController::class, 'about'])->name('about');
+    Route::get('/privacy-policy',[UserController::class, 'privacy'])->name('privacy');
+
     //         Shop route
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
@@ -124,8 +131,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // Main-slide
     Route::get('/admin/slides', [AdminController::class, 'slides'])->name('admin.slides.index');
     Route::get('/admin/slides/create', [AdminController::class, 'slide_add'])->name('admin.slides.create');
-    Route::post('/admin/slides/store', [AdminController::class, 'slide_store'])->name('admin.slides.store');
     Route::get('/admin/slides/edit/{id}', [AdminController::class, 'slide_edit'])->name('admin.slides.edit');
+    Route::post('/admin/slides/store', [AdminController::class, 'slide_store'])->name('admin.slides.store');
     Route::put('/admin/slides/update', [AdminController::class, 'slide_update'])->name('admin.slides.update');
     Route::delete('/admin/slides/{id}', [AdminController::class, 'slide_destroy'])->name('admin.slides.destroy');
 
