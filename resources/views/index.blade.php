@@ -375,7 +375,7 @@
                                     src="{{ asset('uploads/products/' . $product->image) }}" width="690"
                                     height="665" alt="" />
                                 <div class="category-banner__item-mark">
-                                    Starting at {{ $product->sale_price }} EGP
+                                    {{ __('shop.big_offer') }} {{ $product->sale_price }} {{ __('shop.currency') }} 
                                 </div>
                                 <div class="category-banner__item-content">
                                     <h3 class="mb-0">{{ $product->name }}</h3>

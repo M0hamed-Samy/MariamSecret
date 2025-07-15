@@ -536,18 +536,33 @@ class AdminController extends Controller
     }
     //          Orders
     public function orders()
-    {
-        $orders = Order::orderBy('created_at', "DESC")->paginate(12);
-        return view('admin.orders.index', compact('orders'));
+{
+    $orders = Order::orderBy('created_at', "DESC")->paginate(12);
+
+    foreach ($orders as $order) {
+        $state = $order->state;
+        $order->taxAmount = config('state_taxes.' . $state, 0); // attach fixed tax
     }
+
+    return view('admin.orders.index', compact('orders'));
+}
+
 
     public function order_details($order_id)
     {
         $order = Order::findOrFail($order_id);
+
         $orderItem = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(12);
         $transaction = Transaction::where('order_id', $order_id)->first();
-        return view('admin.orders.show', compact('order', 'orderItem', 'transaction'));
+
+        // Get fixed tax value for the state
+        $state = $order->state;
+        $taxAmount = config('state_taxes.' . $state, 0); // fallback to 0 if not defined
+
+        return view('admin.orders.show', compact('order', 'orderItem', 'transaction', 'taxAmount'));
     }
+
+
 
     public function update_order_status(Request $request)
     {

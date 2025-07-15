@@ -147,10 +147,8 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Discover <br /><strong>Radiant Skin</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Indulge in the art
-                                            of self-care with our luxurious skincare essentials. From age-defying serums to
-                                            nourishing creams, every product is crafted to reveal your natural glow.</h6>
+                                             {{ __('shop.word_1_title') }} <br /><strong> {{ __('shop.word_1_strong') }}</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> {{ __('shop.word_1') }}</p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -170,11 +168,9 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Love Your<br /><strong>Lips</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> Accessories are
-                                            the perfect finishing touch to elevate your everyday look. Whether you're adding
-                                            a bold statement piece or a subtle hint of shimmer, the right accessory can
-                                            transform your style effortlessly. </h6>
+                                              {{ __('shop.word_2_title') }}<br /><strong>  {{ __('shop.word_2_strong') }}</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">
+                                          {{ __('shop.word_2') }} </p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -194,11 +190,9 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Crown Your <br /><strong>Confidence</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> Let your hair
-                                            shine with strength and beauty. Our rich formulas revitalize every strand —
-                                            whether you’re chasing silky smoothness, volume, or deep repair. Because
-                                            gorgeous hair isn’t a luxury — it’s a lifestyle.</h6>
+                                            {{ __('shop.word_3_title') }}  <br /><strong>{{ __('shop.word_3_strong') }} </strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5"> {{ __('shop.word_3') }} 
+                                            </p>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
@@ -328,9 +322,9 @@
                                     <div class="product-card__price d-flex">
                                         <span class="money price">
                                             @if ($product->sale_price && $product->sale_price != $product->regular_price)
-                                                <s>{{ $product->regular_price }} LE</s> {{ $product->sale_price }} LE
+                                                <s>{{ $product->regular_price }} EGP</s> {{ $product->sale_price }} EGP
                                             @else
-                                                {{ $product->regular_price }} LE
+                                                {{ $product->regular_price }} EGP
                                             @endif
                                         </span>
                                     </div>

@@ -183,7 +183,7 @@
                             <th>Subtotal</th>
                             <td>{{ $order->subtotal }} EGP</td>
                             <th>Tax</th>
-                            <td>{{ $order->tax }} EGP</td>
+                            <td>{{ number_format($taxAmount, 2) }} EGP</td>
                             <th>Discount</th>
                             <td>{{ $order->discount }} EGP</td>
                         </tr>

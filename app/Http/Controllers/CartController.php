@@ -19,6 +19,7 @@ class CartController extends Controller
     // Cart
     public function index()
     {
+
         $items = Cart::instance('cart')->content();
         $cart = $items->count();
 
@@ -150,43 +151,55 @@ class CartController extends Controller
     {
         $user_id = Auth::user()->id;
         $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
-        if (!$address) {
-            $request->validate(
-                [
-                    'name' => 'required|max:100',
-                    'phone' => ['required', 'regex:/^01[0-2,5]{1}[0-9]{8}$/'],
-                    'zip' => 'nullable|numeric|digits:5',
-                    'state' => 'required',
-                    'city' => 'required',
-                    'address' => 'required',
-                    'locality' => 'required',
-                    'landmark' => 'required'
-                ],
-                [
-                    'phone.regex' => 'Please enter a valid Egyptian phone number (e.g., 010xxxxxxxx).',
-                ]
-            );
-            $address = new Address();
-            $address->user_id = $user_id;
-            $address->name = $request->name;
-            $address->phone = $request->phone;
-            $address->zip = $request->zip;
-            $address->state = $request->state;
-            $address->city = $request->city;
-            $address->address = $request->address;
-            $address->locality = $request->locality;
-            $address->landmark = $request->landmark;
-            $address->country = '';
-            $address->isdefault = true;
-            $address->save();
-        }
+
+        $request->validate(
+            [
+                'name' => 'required|max:100',
+                'phone' => ['required', 'regex:/^01[0-2,5]{1}[0-9]{8}$/'],
+                'zip' => 'nullable|numeric|digits:5',
+                'state' => 'required',
+                'city' => 'required',
+                'address' => 'required',
+                'locality' => 'required',
+                'landmark' => 'required'
+
+            ],
+            [
+                'phone.regex' => 'Please enter a valid Egyptian phone number (e.g., 010xxxxxxxx).',
+            ]
+        );
+
+        // 1. Get state
+        $state = $request->state;
+
+        // 2. Load shipping cost
+        $shippingRates = config('state_taxes'); // or define inline
+        $shipping = $shippingRates[$state] ?? 0;
+
+
+
+
+        $address = new Address();
+        $address->user_id = $user_id;
+        $address->name = $request->name;
+        $address->phone = $request->phone;
+        $address->zip = $request->zip;
+        $address->state = $request->state;
+        $address->city = $request->city;
+        $address->address = $request->address;
+        $address->locality = $request->locality;
+        $address->landmark = $request->landmark;
+        $address->country = '';
+        $address->isdefault = true;
+        $address->save();
+
         $this->setAmountForCheckout();
         $order = new Order();
         $order->user_id = $user_id;
         $order->subtotal = Session::get('checkout')['subtotal'];
         $order->discount = Session::get('checkout')['discount'];
-        $order->tax = Session::get('checkout')['tax'];
-        $order->total = Session::get('checkout')['total'];
+        $order->tax = $shipping;
+        $order->total = Session::get('checkout')['total'] + $shipping;
         $order->name = $address->name;
         $order->phone = $address->phone;
         $order->locality = $address->locality;

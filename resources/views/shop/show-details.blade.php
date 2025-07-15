@@ -89,23 +89,14 @@
                 <div class="col-lg-5">
                     <div class="d-flex justify-content-between mb-4 pb-md-2">
                         <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+                            <a href="{{ route('home.index') }}"
+                                class="menu-link menu-link_us-s text-uppercase fw-medium">{{ __('messages.home') }}</a>
                             <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
-                        </div><!-- /.breadcrumb -->
+                            <a href="{{ route('shop.index') }}"
+                                class="menu-link menu-link_us-s text-uppercase fw-medium">{{ __('messages.shop') }}</a>
+                        </div>
 
-                        <div
-                            class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-                            <a href="#" class="text-uppercase fw-medium"><svg width="10" height="10"
-                                    viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_prev_md" />
-                                </svg><span class="menu-link menu-link_us-s">Prev</span></a>
-                            <a href="#" class="text-uppercase fw-medium"><span
-                                    class="menu-link menu-link_us-s">Next</span><svg width="10" height="10"
-                                    viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_next_md" />
-                                </svg></a>
-                        </div><!-- /.shop-acs -->
+
                     </div>
                     <h1 class="product-single__name">{{ $product->name }}</h1>
                     <div class="product-single__rating">
@@ -143,7 +134,7 @@
                         <p>{{ $product->short_description }}</p>
                     </div>
                     @if (Cart::instance('cart')->content()->Where('id', $product->id)->count() > 0)
-                        <a href="{{ route('cart.index') }}" class="btn btn-warning mb-3">Go to Cart</a>
+                        <a href="{{ route('cart.index') }}" class="btn btn-warning mb-3">{{ __('shop.go_cart') }}</a>
                     @else
                         <form name="addtocart-form" method="POST" action="{{ route('cart.store') }}">
                             @csrf
@@ -160,7 +151,7 @@
 
                                 <input type="hidden" name="price"
                                     value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" />
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                <button type="submit" class="btn btn-primary">{{ __('shop.add_cart') }}</button>
                             </div>
                         </form>
                     @endif
@@ -177,7 +168,7 @@
                                         height="16" viewBox="0 0 20 20" fill="none" class="filled-heart"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <use href="#icon_heart" />
-                                    </svg><span>Remove from Wishlist</span></a>
+                                    </svg><span>{{ __('shop.remove_wishlist') }}</span></a>
                             </form>
                         @else
                             <form method="POST" action="{{ route('wishlist.add') }}" id="wishlist-form">
@@ -192,10 +183,10 @@
                                         height="16" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <use href="#icon_heart" />
-                                    </svg><span>Add to Wishlist</span></a>
+                                    </svg><span>{{ __('shop.add_wishlist') }}</span></a>
                             </form>
                         @endif
-                        <share-button class="share-button">
+                        {{-- <share-button class="share-button">
                             <button
                                 class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
                                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
@@ -226,7 +217,7 @@
                                     </button>
                                 </div>
                             </details>
-                        </share-button>
+                        </share-button> --}}
                         <script src="js/details-disclosure.html" defer="defer"></script>
                         <script src="js/share.html" defer="defer"></script>
                     </div>
@@ -251,16 +242,16 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link nav-link_underscore active" id="tab-description-tab" data-bs-toggle="tab"
                             href="#tab-description" role="tab" aria-controls="tab-description"
-                            aria-selected="true">Description</a>
+                            aria-selected="true">{{ __('shop.description') }}</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link nav-link_underscore" id="tab-additional-info-tab" data-bs-toggle="tab"
                             href="#tab-additional-info" role="tab" aria-controls="tab-additional-info"
-                            aria-selected="false">Additional Information</a>
+                            aria-selected="false">{{ __('shop.more_info') }}</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab"
-                            href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">Reviews
+                            href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">{{ __('shop.reviews') }}
                             (2)</a>
                     </li>
                 </ul>
@@ -276,23 +267,24 @@
                         aria-labelledby="tab-additional-info-tab">
                         <div class="product-single__addtional-info">
                             <div class="item">
-                                <label class="h6">SKU</label>
+                                <label class="h6">{{ __('shop.SKU') }}</label>
                                 <span>{{ $product->SKU }}</span>
                             </div>
                             <div class="item">
-                                <label class="h6">Category</label>
+                                <label class="h6">{{ __('shop.category') }}</label>
                                 <span>{{ $product->category->name }}</span>
                             </div>
                             <div class="item">
-                                <label class="h6">Brand</label>
+                                <label class="h6">{{ __('shop.brand') }}</label>
                                 <span>{{ $product->brand->name }}</span>
                             </div>
                             @if (!empty($product->size))
                                 <div class="item">
-                                    <label class="h6">Size</label>
+                                    <label class="h6">{{ __('shop.size') }}</label>
                                     <span>{{ $product->size }} ml</span>
                                 </div>
                             @endif
+
 
 
 
@@ -502,8 +494,7 @@
 
                                     @if (Cart::instance('cart')->content()->Where('id', $rproduct->id)->count() > 0)
                                         <a href="{{ route('cart.index') }}"
-                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart btn-warning">Go
-                                            to Cart</a>
+                                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart btn-warning">{{ __('shop.go_cart') }}</a>
                                     @else
                                         <form name="addtocart-form" method="POST" action="{{ route('cart.store') }}">
                                             @csrf
@@ -514,8 +505,7 @@
                                                 <input type="hidden" name="price"
                                                     value="{{ $rproduct->sale_price == '' ? $rproduct->regular_price : $rproduct->sale_price }}" />
                                                 <button type="submit"
-                                                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart">Add
-                                                    to Cart</button>
+                                                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart">{{ __('shop.add_cart') }}</button>
                                             </div>
                                         </form>
                                     @endif
@@ -543,7 +533,7 @@
                                             @method('DELETE')
                                             <button type="submit"
                                                 class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
-                                                title="Add To Wishlist">
+                                                title="{{ __('shop.add_wishlist') }}">
                                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <use href="#icon_heart" />
@@ -561,7 +551,7 @@
 
                                             <button type="submit"
                                                 class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                                title="Add To Wishlist">
+                                                title="{{ __('shop.add_wishlist') }}">
                                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <use href="#icon_heart" />

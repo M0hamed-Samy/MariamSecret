@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('locality');
             $table->string('landmark')->nullable();
             $table->string('city');
-            $table->string('zip');
+            $table->string('zip')->nullable();
             $table->string('country');
             $table->string('type')->default('home');
             $table->enum('status', ['ordered', 'delivered', 'canceled'])->default('ordered');

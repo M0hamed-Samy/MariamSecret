@@ -43,7 +43,7 @@
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
         <section class="my-account container">
-            <h2 class="page-title">Orders</h2>
+            <h2 class="page-title">{{ __('messages.orders') }}</h2>
             <div class="row">
                 <div class="col-lg-2">
                     @include('user.account-nav')
@@ -63,7 +63,7 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 80px">OrderNo</th>
-                                            <th>Name</th>
+                                            <th>{{ __('messages.name') }}</th>
                                             <th class="text-center">Phone</th>
                                             <th class="text-center">Subtotal</th>
                                             <th class="text-center">Tax</th>
@@ -82,9 +82,9 @@
                                                 <td class="text-center">{{ $order->id }}</td>
                                                 <td class="text-center">{{ $order->name }}</td>
                                                 <td class="text-center">{{ $order->phone }}</td>
-                                                <td class="text-center">{{ $order->subtotal }} LE</td>
-                                                <td class="text-center">{{ $order->tax }} LE</td>
-                                                <td class="text-center">{{ $order->total }} LE</td>
+                                                <td class="text-center">{{ $order->subtotal }} EGP</td>
+                                                <td class="text-center">{{ $order->tax }} EGP</td>
+                                                <td class="text-center">{{ $order->total }} EGP</td>
                                                 <td>
                                                     @if ($order->status == 'delivered')
                                                         <span class="badge bg-success">Delivered</span>

@@ -68,8 +68,8 @@
                                             <div class="text-tiny mt-3">{{ $product->slug }}</div>
                                         </div>
                                     </td>
-                                    <td>{{ $product->regular_price }} LE</td>
-                                    <td>{{ $product->sale_price }} LE</td>
+                                    <td>{{ $product->regular_price }} EGP</td>
+                                    <td>{{ $product->sale_price }} EGP</td>
                                     <td>{{ $product->SKU }}</td>
                                     <td>{{ $product->category->name ?? 'No Category' }}</td>
                                     <td>{{ $product->brand->name ?? 'No Brand' }}</td>

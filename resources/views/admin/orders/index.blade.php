@@ -59,8 +59,8 @@
                                         <td class="text-center">{{ $order->name }}</td>
                                         <td class="text-center">{{ $order->phone }}</td>
                                         <td class="text-center">{{ $order->subtotal }}EGP</td>
-                                        <td class="text-center">{{ $order->tax }} EGP</td>
-                                        <td class="text-center">{{ $order->total }} EGP</td>
+                                         <td class="text-center">{{ number_format($order->taxAmount, 2) }} EGP</td>
+                                        <td class="text-center">{{ $order->total +  number_format($order->taxAmount, 2) }} EGP</td>
 
                                         <td>
                                             @if ($order->status == 'delivered')

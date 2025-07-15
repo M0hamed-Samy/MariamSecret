@@ -15,42 +15,44 @@
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
         <section class="shop-checkout container">
-            <h2 class="page-title">Cart</h2>
+            <h2 class="page-title">{{ __('shop.cart') }}</h2>
             <div class="checkout-steps">
                 <a href="javascript:void(0)" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">01</span>
                     <span class="checkout-steps__item-title">
-                        <span>Shopping Bag</span>
-                        <em>Manage Your Items List</em>
+                        <span>{{ __('shop.step_1_title') }}</span>
+                        <em>{{ __('shop.step_1_subtitle') }}</em>
                     </span>
                 </a>
                 <a href="javascript:void(0)" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">02</span>
                     <span class="checkout-steps__item-title">
-                        <span>Shipping and Checkout</span>
-                        <em>Checkout Your Items List</em>
+                        <span>{{ __('shop.step_2_title') }}</span>
+                        <em>{{ __('shop.step_2_subtitle') }}</em>
                     </span>
                 </a>
                 <a href="javascript:void(0)" class="checkout-steps__item">
                     <span class="checkout-steps__item-number">03</span>
                     <span class="checkout-steps__item-title">
-                        <span>Confirmation</span>
-                        <em>Review And Submit Your Order</em>
+                        <span>{{ __('shop.step_3_title') }}</span>
+                        <em>{{ __('shop.step_3_subtitle') }}</em>
                     </span>
                 </a>
             </div>
+
             <div class="shopping-cart">
                 @if ($items->count() > 0)
                     <div class="cart-table__wrapper">
                         <table class="cart-table">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
+                                    <th>{{ __('shop.product') }}</th>
                                     <th></th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Subtotal</th>
+                                    <th>{{ __('shop.price') }}</th>
+                                    <th>{{ __('shop.quantity') }}</th>
+                                    <th>{{ __('shop.subtotal') }}</th>
                                     <th></th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,10 +68,13 @@
                                         <td>
                                             <div class="shopping-cart__product-item__detail">
                                                 <h4>{{ $item->name }}</h4>
-                                                <ul class="shopping-cart__product-item__options">
-                                                    <li>Color: Yellow</li>
-                                                    <li>Size: L</li>
-                                                </ul>
+                                                @if (!empty($item->size))
+                                                    <ul class="shopping-cart__product-item__options">
+                                                        <li>Size: {{ $item->size }} ml</li>
+                                                    </ul>
+                                                @endif
+
+
                                             </div>
                                         </td>
                                         <td>
@@ -95,7 +100,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="shopping-cart__subtotal">{{ $item->subTotal() }} LE</span>
+                                            <span class="shopping-cart__subtotal">{{ $item->subTotal() }} EGP</span>
                                         </td>
                                         <td>
                                             <form method="POST"
@@ -126,10 +131,10 @@
                                 <form action="{{ route('cart.coupon.apply') }}" method="post"
                                     class="position-relative bg-body">
                                     @csrf
-                                    <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
+                                    <input class="form-control" type="text" name="coupon_code" placeholder="{{ __('shop.coupon_code') }}"
                                         value="">
                                     <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
-                                        type="submit" value="APPLY COUPON">
+                                        type="submit" value="{{ __('shop.apply_coupon') }}">
                                 </form>
                             @else
                                 <form action="{{ route('cart.coupon.remove') }}" method="post"
@@ -139,14 +144,14 @@
                                     <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
                                         value=" @if (Session::has('coupon')) {{ Session::get('coupon')['code'] }} Applied! @endif">
                                     <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
-                                        type="submit" value="REMOVE COUPON">
+                                        type="submit" value="{{ __('shop.remove_coupon') }}">
                                 </form>
                             @endif
 
                             <form class="position-relative bg-body" method="POST" action="{{ route('cart.empty') }}">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-light" type="submit">CLEAR CART</button>
+                                <button class="btn btn-light" type="submit">{{ __('shop.clear_cart') }}</button>
                             </form>
                         </div>
                         <div>
@@ -160,33 +165,33 @@
                     <div class="shopping-cart__totals-wrapper">
                         <div class="sticky-content">
                             <div class="shopping-cart__totals">
-                                <h3>Cart Totals</h3>
+                                <h3>{{ __('shop.cart_totals') }}</h3>
                                 @if (Session::has('discounts'))
                                     <table class="cart-totals">
                                         <tbody>
                                             <tr>
-                                                <th>Subtotal</th>
-                                                <td>{{ Cart::instance('cart')->subtotal() }} LE</td>
+                                                <th>{{ __('shop.subtotal') }}</th>
+                                                <td class="text-right">{{ Cart::instance('cart')->subtotal() }} EGP</td>
                                             </tr>
                                             <tr>
-                                                <th>Discount {{ Session('coupon')['code'] }}</th>
-                                                <td>-{{ Session('discounts')['discount'] }} LE</td>
+                                                <th>{{ __('shop.discount') }} {{ Session('coupon')['code'] }}</th>
+                                                <td class="text-right">-{{ Session('discounts')['discount'] }} EGP</td>
                                             </tr>
                                             <tr>
-                                                <th>Subtotal After Discount</th>
-                                                <td>{{ Session('discounts')['subtotal'] }} LE</td>
+                                                <th>{{ __('shop.subtotal_after_discount') }}</th>
+                                                <td class="text-right">{{ Session('discounts')['subtotal'] }} EGP</td>
                                             </tr>
                                             <tr>
-                                                <th>SHIPPING</th>
-                                                <td class="text-right">Free</td>
+                                                <th>{{ __('shop.shipping') }}</th>
+                                                <td class="text-right">...</td>
                                             </tr>
-                                            <tr>
-                                                <th>VAT</th>
-                                                <td>{{ Session('discounts')['tax'] }} LE</td>
-                                            </tr>
+                                            {{-- <tr>
+                <th>{{ __('shop.vat') }}</th>
+                <td class="text-right">{{ Session('discounts')['tax'] }} EGP</td>
+            </tr> --}}
                                             <tr class="cart-total">
-                                                <th>Total</th>
-                                                <td>{{ Session('discounts')['total'] }} LE</td>
+                                                <th>{{ __('shop.total') }}</th>
+                                                <td class="text-right">{{ Session('discounts')['total'] }} EGP</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -194,29 +199,30 @@
                                     <table class="cart-totals">
                                         <tbody>
                                             <tr>
-                                                <th>Subtotal</th>
-                                                <td>{{ Cart::instance('cart')->subtotal() }} LE</td>
+                                                <th>{{ __('shop.subtotal') }}</th>
+                                                <td class="text-right">{{ Cart::instance('cart')->subtotal() }} EGP</td>
                                             </tr>
                                             <tr>
-                                                <th>SHIPPING</th>
-                                                <td class="text-right">Free</td>
+                                                <th>{{ __('shop.shipping') }}</th>
+                                                <td class="text-right">...</td>
                                             </tr>
-                                            <tr>
-                                                <th>VAT</th>
-                                                <td>{{ Cart::instance('cart')->tax() }} LE</td>
-                                            </tr>
+                                            {{-- <tr>
+                <th>{{ __('shop.vat') }}</th>
+                <td class="text-right">{{ Cart::instance('cart')->tax() }} EGP</td>
+            </tr> --}}
                                             <tr class="cart-total">
-                                                <th>Total</th>
-                                                <td>{{ Cart::instance('cart')->total() }} LE</td>
+                                                <th>{{ __('shop.total') }}</th>
+                                                <td class="text-right">{{ Cart::instance('cart')->total() }} EGP</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 @endif
 
+
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">
-                                    <a href="{{ route('cart.checkout') }}" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
+                                    <a href="{{ route('cart.checkout') }}" class="btn btn-primary btn-checkout">{{ __('shop.proceed_to_checkout') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -224,8 +230,8 @@
                 @else
                     <div class="row">
                         <div class="col-md-12 text-center pt-5 bp-5">
-                            <p>No item found in your cart</p>
-                            <a href="{{ route('shop.index') }}" class="btn btn-info">Shop Now</a>
+                            <p>{{ __('shop.no_cart_items') }}</p>
+                            <a href="{{ route('shop.index') }}" class="btn btn-info">{{ __('messages.shop_now') }}</a>
                         </div>
                     </div>
                 @endif

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('landmark')->nullable();
-            $table->string('zip');
+            $table->string('zip')->nullable();
             $table->string('type')->default('home');
             $table->boolean('isdefault')->default(false);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

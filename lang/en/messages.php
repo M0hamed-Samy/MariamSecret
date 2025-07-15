@@ -45,6 +45,8 @@ return [
     'price' => 'Price',
     'quantity' => 'Quantity',
     'order_now' => 'Order Now',
+    'orders' => 'Orders',
+
     'like' => 'You Might Like',
 
     // Footer
